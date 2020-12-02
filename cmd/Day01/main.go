@@ -70,7 +70,7 @@ func readInput(path string) string {
 }
 
 func main() {
-	input := readInput(fmt.Sprintf("../inputs/1.txt"))
+	input := readInput(fmt.Sprintf("../../inputs/1.txt"))
 	p1, p2 := solve(input)
 	fmt.Printf("Part 1: %d, Part2: %d\n", p1, p2)
 }
