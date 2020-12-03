@@ -2,17 +2,16 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
-	"log"
 	"strconv"
 	"strings"
+
+	"github.com/bznein/AoC2020/pkg/input"
 )
 
-func solve(input string) (int, int) {
+func solve(inputF string) (int, int) {
 	part1 := 0
 	part2 := 0
-	passwords := strings.Split(input, "\n")
-	passwords = passwords[:len(passwords)-1]
+	passwords := input.InputToStringSlice(inputF)
 
 	for _, pwd := range passwords {
 		parts := strings.Split(pwd, " ")
@@ -36,21 +35,8 @@ func solve(input string) (int, int) {
 
 }
 
-func readInput(path string) string {
-	// Read entire file content, giving us little control but
-	// making it very simple. No need to close the file.
-	content, err := ioutil.ReadFile(path)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Convert []byte to string and print to screen
-	text := string(content)
-	return text
-}
-
 func main() {
-	input := readInput(fmt.Sprintf("../../inputs/2.txt"))
-	p1, p2 := solve(input)
+	inputF := input.ReadInput(fmt.Sprintf("../../inputs/2.txt"))
+	p1, p2 := solve(inputF)
 	fmt.Printf("Part 1: %d, Part2: %d\n", p1, p2)
 }

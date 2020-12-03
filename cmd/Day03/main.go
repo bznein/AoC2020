@@ -2,9 +2,8 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
-	"log"
-	"strings"
+
+	"github.com/bznein/AoC2020/pkg/input"
 )
 
 type maze []string
@@ -40,11 +39,10 @@ func explore(m maze, i, j int) int {
 	return res
 }
 
-func solve(input string) (int, int) {
+func solve(inputF string) (int, int) {
 	var m maze
-	m = strings.Split(input, "\n")
+	m = input.InputToStringSlice(inputF)
 
-	m = m[:len(m)-1]
 	part1 := explore(m, 1, 3)
 	part2 := part1
 	part2 *= explore(m, 1, 1)
@@ -54,21 +52,8 @@ func solve(input string) (int, int) {
 	return part1, part2
 }
 
-func readInput(path string) string {
-	// Read entire file content, giving us little control but
-	// making it very simple. No need to close the file.
-	content, err := ioutil.ReadFile(path)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Convert []byte to string and print to screen
-	text := string(content)
-	return text
-}
-
 func main() {
-	input := readInput(fmt.Sprintf("../../inputs/3.txt"))
-	p1, p2 := solve(input)
+	inputF := input.ReadInput(fmt.Sprintf("../../inputs/3.txt"))
+	p1, p2 := solve(inputF)
 	fmt.Printf("Part 1: %d, Part2: %d\n", p1, p2)
 }
