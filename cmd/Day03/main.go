@@ -42,6 +42,10 @@ func explore(m maze, i, j int) int {
 	curColor := term.White
 	for {
 		term.Tbprint(60, try+10, curColor, term.Black, fmt.Sprintf("Trees encountered with slope (%d,%d) = %d", j, i, res))
+
+		if position.i >= len(m) {
+			break
+		}
 		// TODO make the 2d maze multicolour (see term.go)
 		if input.Visualize {
 			c := m[position.i][position.j]
@@ -50,9 +54,6 @@ func explore(m maze, i, j int) int {
 			term.StringSlice(10, 3, term.White, term.Black, m)
 			m[position.i] = strings.ReplaceAtIndex(m[position.i], rune(c), position.j)
 
-		}
-		if position.i >= len(m) {
-			break
 		}
 		if m[position.i][position.j] == '#' {
 			res++
