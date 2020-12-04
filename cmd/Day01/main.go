@@ -73,7 +73,5 @@ func main() {
 	input.ParseFlags()
 	inputF := input.ReadInput(fmt.Sprintf("../../inputs/1.txt"))
 	p1, p2 := solve(inputF)
-	if !input.Visualize {
-		fmt.Printf("Part 1: %d, Part2: %d\n", p1, p2)
-	}
+	fmt.Printf("Part 1: %d, Part2: %d\n", p1, p2)
 }

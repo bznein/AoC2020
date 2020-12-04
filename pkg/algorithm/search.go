@@ -32,7 +32,6 @@ func BinarySearch(a []int, search int) int {
 	case len(a) == 0:
 		if input.Visualize {
 			term.Tbprint(0, 5, termbox.ColorRed, termbox.ColorBlack, "not found :(")
-			termbox.Flush()
 			time.Sleep(time.Millisecond * input.Delay)
 		}
 		return -1 // not found
