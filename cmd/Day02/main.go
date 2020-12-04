@@ -43,7 +43,7 @@ func solve(inputF string) (int, int) {
 			part1++
 			if input.Visualize {
 				term.ClearLine(3)
-				term.Separator(40)
+				term.Separator(40, 0, 5)
 				term.Tbprint(10, 3, g, b, pw)
 				term.Tbprint(35, 1, g, b, nums[0])
 				term.Tbprint(35, 2, g, b, "<=")
@@ -59,7 +59,7 @@ func solve(inputF string) (int, int) {
 				upperC = g
 			}
 			term.ClearLine(3)
-			term.Separator(40)
+			term.Separator(40, 0, 5)
 			term.Tbprint(10, 3, r, b, pw)
 			term.Tbprint(35, 1, lowerC, b, nums[0])
 			term.Tbprint(35, 2, lowerC, b, "<=")

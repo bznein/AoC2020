@@ -1,10 +1,12 @@
 package passport
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
 	"github.com/bznein/AoC2020/pkg/input"
+	"github.com/bznein/AoC2020/pkg/term"
 )
 
 const (
@@ -146,4 +148,22 @@ func (p passport) IsValid() bool {
 		return false
 	}
 	return true
+}
+
+func (p passport) Print() {
+	//TODO center stuff
+	term.Tbprint(5, 2, term.White, term.Black, "/---------------------------------\\")
+	term.Separator(5, 2, 20)
+	term.Separator(39, 2, 20)
+	term.Tbprint(5, 22, term.White, term.Black, "\\---------------------------------/")
+
+	term.Tbprint(8, 4, term.White, term.Black, fmt.Sprintf("Passport number: %s", p[pid]))
+	term.Tbprint(8, 6, term.White, term.Black, fmt.Sprintf("Issue Year: %s", p[issueYear]))
+	term.Tbprint(8, 8, term.White, term.Black, fmt.Sprintf("Exp. Year: %s", p[expYear]))
+	term.Tbprint(8, 10, term.White, term.Black, fmt.Sprintf("CID: %s", p[cid]))
+	term.Tbprint(8, 12, term.White, term.Black, "-------------------------------")
+	term.Tbprint(8, 14, term.White, term.Black, fmt.Sprintf("YOB: %s", p[birthYear]))
+	term.Tbprint(8, 16, term.White, term.Black, fmt.Sprintf("Height: %s", p[height]))
+	term.Tbprint(8, 18, term.White, term.Black, fmt.Sprintf("Hair Colour: %s", p[hairColour]))
+	term.Tbprint(8, 20, term.White, term.Black, fmt.Sprintf("Eye Colour: %s", p[eyeColour]))
 }

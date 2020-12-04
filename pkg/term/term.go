@@ -36,9 +36,9 @@ func Close() {
 	termbox.Close()
 }
 
-func Separator(x int) {
-	for i := 1; i <= 5; i++ {
-		Tbprint(x, i, White, Black, "|")
+func Separator(x int, y int, l int) {
+	for i := 1; i <= l; i++ {
+		Tbprint(x, y+i, White, Black, "|")
 	}
 }
 
