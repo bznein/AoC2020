@@ -1,3 +1,7 @@
 github.com/bznein/Aoc2020 v0.0.0-20201203084219-9786bf57e8ac h1:1mcZx1f1bCtM/rHn3QWEv8CaANjUX7R23sMxfRW1RCU=
+github.com/mattn/go-runewidth v0.0.9 h1:Lm995f3rfxdpd6TSmuVCHVb/QhupuXlYr8sCI/QdE+0=
+github.com/mattn/go-runewidth v0.0.9/go.mod h1:H031xJmbD/WCDINGzjvQ9THkh0rPKHF+m2gUSrubnMI=
+github.com/nsf/termbox-go v0.0.0-20201124104050-ed494de23a00 h1:Rl8NelBe+n7SuLbJyw13ho7CGWUt2BjGGKIoreCWQ/c=
+github.com/nsf/termbox-go v0.0.0-20201124104050-ed494de23a00/go.mod h1:T0cTdVuOwf7pHQNtfhnEbzHbcNyCEcVU4YPpouCbVxo=
 github.com/spf13/pflag v1.0.5 h1:iy+VFUOCP1a+8yFto/drg2CJ5u0yRoB7fZw3DKv/JXA=
 github.com/spf13/pflag v1.0.5/go.mod h1:McXfInJRrz4CZXVZOBLb0bTZqETkiAhM9Iw0y3An2Bg=
