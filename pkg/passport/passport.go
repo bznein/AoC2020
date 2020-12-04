@@ -23,7 +23,7 @@ var validEyeColours = [...]string{"amb", "blu", "gry", "brn", "grn", "hzl", "oth
 
 type passport map[string]string
 
-func stringToPassportSlice(inputD string) []passport {
+func StringToPassportSlice(inputD string) []passport {
 	result := []passport{}
 	stringSlice := input.InputToStringSlice(inputD)
 	emptyPassport := passport{}
