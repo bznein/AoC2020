@@ -15,5 +15,9 @@ func ParseFlags() {
 	flag.BoolVar(&Visualize, "v", false, "show visualization of solve")
 	d := flag.Int64("d", 300, "visualization delay")
 	flag.Parse()
-	Delay = time.Duration(*d)
+	if !Visualize {
+		Delay = 0
+	} else {
+		Delay = time.Duration(*d)
+	}
 }

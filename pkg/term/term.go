@@ -56,3 +56,10 @@ func BicolorString(x, y int, s string, baseColor termbox.Attribute, alternateCol
 	}
 	termbox.Flush()
 }
+
+// TODO nicer interface to have this multicolour
+func StringSlice(x, y int, fg, bg termbox.Attribute, slice []string) {
+	for i, s := range slice {
+		Tbprint(x, y+i, fg, bg, s)
+	}
+}
