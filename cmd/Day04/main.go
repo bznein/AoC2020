@@ -23,10 +23,10 @@ func solve(inputF string) (int, int) {
 
 		if input.Visualize {
 			p.Print()
-			term.Tbprint(8, 26, term.White, term.Black, "----AIRPORT SECURITY-----")
+			term.Tbprint(8, 26, term.White, term.Black, "-----AIRPORT SECURITY-----")
 			term.Separator(8, 26, 6)
-			term.Separator(32, 26, 6)
-			term.Tbprint(8, 32, term.White, term.Black, "-------------------------")
+			term.Separator(33, 26, 6)
+			term.Tbprint(8, 32, term.White, term.Black, "--------------------------")
 		}
 
 		if p.HasAllRequiredFields() {

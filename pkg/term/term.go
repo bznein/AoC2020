@@ -8,10 +8,13 @@ import (
 const (
 	newLine = "                                                                                                                                                                                                                                                                                                                                                                                                 "
 
-	Black = termbox.ColorBlack
-	Green = termbox.ColorGreen
-	Red   = termbox.ColorRed
-	White = termbox.ColorWhite
+	Black  = termbox.ColorBlack
+	Green  = termbox.ColorGreen
+	Red    = termbox.ColorRed
+	White  = termbox.ColorWhite
+	Gray   = termbox.ColorDarkGray
+	Yellow = termbox.ColorYellow
+	Cyan   = termbox.ColorCyan
 )
 
 func Tbprint(x, y int, fg, bg termbox.Attribute, msg string) {
@@ -34,6 +37,13 @@ func Init() {
 
 func Close() {
 	termbox.Close()
+}
+
+func HSeparator(x int, y int, l int, c rune) {
+	for i := 1; i <= l; i++ {
+		Tbprint(x, y, White, Black, string(c))
+		x += runewidth.RuneWidth(c)
+	}
 }
 
 func Separator(x int, y int, l int) {
