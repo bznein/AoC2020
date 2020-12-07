@@ -1,22 +1,18 @@
 package algorithm
 
 import (
-	"fmt"
-	"time"
-
-	"github.com/bznein/AoC2020/pkg/input"
 	"github.com/bznein/AoC2020/pkg/term"
-	"github.com/nsf/termbox-go"
+	visualize "github.com/bznein/AoC2020/pkg/visualize/Day01"
 )
 
-func min(a, b int) int {
+func Min(a, b int) int {
 	if a < b {
 		return a
 	}
 	return b
 }
 
-func max(a, b int) int {
+func Max(a, b int) int {
 	if a < b {
 		return b
 	}
@@ -26,43 +22,24 @@ func max(a, b int) int {
 func BinarySearch(a []int, search int) int {
 	mid := len(a) / 2
 
-	lower := max(0, mid-5)
-	upper := min(mid+5, len(a))
+	lower := Max(0, mid-5)
+	upper := Min(mid+5, len(a))
 	switch {
 	case len(a) == 0:
-		if input.Visualize {
-			term.Tbprint(0, 5, termbox.ColorRed, termbox.ColorBlack, "not found :(")
-			time.Sleep(time.Millisecond * input.Delay)
-		}
+		visualize.ShowResult(false)
 		return -1 // not found
 	case a[mid] > search:
-		if input.Visualize {
-			term.ClearLine(3)
-			term.Tbprint(0, 3, termbox.ColorRed, termbox.ColorBlack, fmt.Sprintf("%v", a[lower:mid]))
-			term.Tbprint(33, 3, termbox.ColorWhite, termbox.ColorBlack, fmt.Sprintf("%d", a[mid]))
-			term.Tbprint(45, 3, termbox.ColorGreen, termbox.ColorBlack, fmt.Sprintf("%v", a[mid+1:upper]))
-			term.ClearLine(5)
-			time.Sleep(time.Millisecond * input.Delay)
-		}
+		visualize.ShowBinarySearch(term.Red, term.Green, a[lower:mid], mid, a[mid+1:upper])
 		return BinarySearch(a[:mid], search)
 	case a[mid] < search:
 		result := BinarySearch(a[mid+1:], search)
-		if input.Visualize {
-			term.ClearLine(3)
-			term.Tbprint(0, 3, termbox.ColorGreen, termbox.ColorBlack, fmt.Sprintf("%v", a[lower:mid]))
-			term.Tbprint(33, 3, termbox.ColorWhite, termbox.ColorBlack, fmt.Sprintf("%d", a[mid]))
-			term.Tbprint(45, 3, termbox.ColorRed, termbox.ColorBlack, fmt.Sprintf("%v", a[mid+1:upper]))
-			term.ClearLine(5)
-			time.Sleep(time.Millisecond * input.Delay)
-		}
+		visualize.ShowBinarySearch(term.Green, term.Red, a[lower:mid], mid, a[mid+1:upper])
 		if result >= 0 { // if anything but the -1 "not found" result
 			return result + mid + 1
 		}
 		return -1
 	default: // a[mid] == search
-		if input.Visualize {
-			term.Tbprint(0, 5, termbox.ColorGreen, termbox.ColorBlack, "Found!")
-		}
+		visualize.ShowResult(true)
 		return mid
 	}
 }
