@@ -1,6 +1,8 @@
 package term
 
 import (
+	"strings"
+
 	"github.com/mattn/go-runewidth"
 	"github.com/nsf/termbox-go"
 )
@@ -27,6 +29,16 @@ func Tbprint(x, y int, fg, bg termbox.Attribute, msg string) {
 
 func ClearLine(y int) {
 	Tbprint(0, y, termbox.ColorBlack, termbox.ColorBlack, newLine)
+}
+
+func ClearArea(x, y int, w, h int) {
+	var sb strings.Builder
+	for i := 0; i < w; i++ {
+		sb.WriteString(" ")
+	}
+	for i := 0; i < h; i++ {
+		Tbprint(x, y+i, White, Black, sb.String())
+	}
 }
 
 func Init() {

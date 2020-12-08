@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
+
+	"github.com/bznein/AoC2020/pkg/input"
 )
 
 type instruction struct {
@@ -51,8 +54,16 @@ func (ex Executor) getInstruction(index int64) instruction {
 
 func (ex *Executor) Run() error {
 	for {
+		if input.Visualize {
+			ex.Print()
+		}
+		time.Sleep(input.Delay * time.Millisecond)
 
 		if _, ok := ex.execCount[ex.ip]; ok {
+			if input.Visualize {
+				ex.InfiniteLoopDetected()
+			}
+			time.Sleep(input.Delay * time.Millisecond * 2000)
 			return fmt.Errorf("Infinite Loop Detected!")
 		}
 		if ex.ip >= int64(len(ex.instructions)) {

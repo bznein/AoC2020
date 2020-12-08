@@ -6,6 +6,7 @@ import (
 
 	"github.com/bznein/AoC2020/pkg/console"
 	"github.com/bznein/AoC2020/pkg/input"
+	visualize "github.com/bznein/AoC2020/pkg/visualize"
 )
 
 func changeIthNopOrJmp(target int, slice []string) []string {
@@ -31,6 +32,8 @@ func solve(inputF string) (int64, int64) {
 	part1 := int64(0)
 	part2 := int64(0)
 
+	visualize.Init()
+	defer visualize.Close()
 	a := input.InputToStringSlice(inputF)
 	ex := console.New(a)
 	ex.Run()
