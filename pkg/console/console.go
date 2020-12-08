@@ -54,20 +54,24 @@ func (ex Executor) getInstruction(index int64) instruction {
 
 func (ex *Executor) Run() error {
 	for {
-		if input.Visualize {
-			ex.Print()
-		}
 		time.Sleep(input.Delay * time.Millisecond)
 
 		if _, ok := ex.execCount[ex.ip]; ok {
 			if input.Visualize {
 				ex.InfiniteLoopDetected()
 			}
-			time.Sleep(input.Delay * time.Millisecond * 2000)
+			time.Sleep(input.Delay * time.Millisecond * 1)
 			return fmt.Errorf("Infinite Loop Detected!")
 		}
 		if ex.ip >= int64(len(ex.instructions)) {
+			if input.Visualize {
+				ex.TerminedSuccesfully()
+			}
+			time.Sleep(input.Delay * time.Millisecond * 5000)
 			return nil
+		}
+		if input.Visualize {
+			ex.Print()
 		}
 		ex.execCount[ex.ip]++
 
