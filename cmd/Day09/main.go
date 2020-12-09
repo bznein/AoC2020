@@ -10,7 +10,7 @@ import (
 type preambleSums []int
 
 const (
-	preambleLength = 25
+	preambleLength = 5
 )
 
 func getPreambleSums(n []int) preambleSums {
@@ -90,6 +90,10 @@ func solve(inputF string) (int, int) {
 func main() {
 	input.ParseFlags()
 	inputF := input.ReadInput(fmt.Sprintf("../../inputs/9.txt"))
-	p1, p2 := solve(inputF)
-	fmt.Printf("Part 1: %d, Part2: %d\n", p1, p2)
+	if input.Visualize {
+		visualSolve(inputF)
+	} else {
+		p1, p2 := solve(inputF)
+		fmt.Printf("Part 1: %d, Part2: %d\n", p1, p2)
+	}
 }
