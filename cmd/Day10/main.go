@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"sort"
 
 	"github.com/bznein/AoC2020/pkg/algorithm"
 	"github.com/bznein/AoC2020/pkg/input"
@@ -11,7 +10,7 @@ import (
 func solve(inputF string) (int, int) {
 	n := []int{0}
 	n = append(n, input.InputToIntSlice(inputF)...)
-	sort.Ints(n)
+	n = algorithm.CountingSort(n)
 	n = append(n, n[len(n)-1]+3)
 	c := make([]int, len(n))
 	c[0] = 1

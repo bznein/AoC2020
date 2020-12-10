@@ -5,20 +5,6 @@ import (
 	visualize "github.com/bznein/AoC2020/pkg/visualize/Day01"
 )
 
-func Min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
-func Max(a, b int) int {
-	if a < b {
-		return b
-	}
-	return a
-}
-
 func BinarySearch(a []int, search int) int {
 	mid := len(a) / 2
 
