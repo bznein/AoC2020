@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sort"
 
+	"github.com/bznein/AoC2020/pkg/algorithm"
 	"github.com/bznein/AoC2020/pkg/input"
 )
 
@@ -24,7 +25,7 @@ func possibleArrangements(n []int) int {
 	c := make([]int, len(n))
 	c[0] = 1
 	for i := range n {
-		for j := 0; j < i; j++ {
+		for j := algorithm.Max(0, i-3); j < i; j++ {
 			if n[i]-n[j] <= 3 {
 				c[i] += c[j]
 			}
