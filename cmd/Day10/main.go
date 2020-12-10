@@ -8,38 +8,25 @@ import (
 	"github.com/bznein/AoC2020/pkg/input"
 )
 
-func byOneTimesByThreeDifferences(n []int) int {
-	diffs := map[int]int{}
-	for i := 0; i < len(n)-1; i++ {
-		diffs[n[i+1]-n[i]]++
-	}
-	return diffs[1] * diffs[3]
-}
-
-func possibleArrangements(n []int) int {
+func solve(inputF string) (int, int) {
+	n := []int{0}
+	n = append(n, input.InputToIntSlice(inputF)...)
+	sort.Ints(n)
+	n = append(n, n[len(n)-1]+3)
 	c := make([]int, len(n))
 	c[0] = 1
+	diffs := map[int]int{}
 	for i := range n {
 		for j := algorithm.Max(0, i-3); j < i; j++ {
 			if n[i]-n[j] <= 3 {
 				c[i] += c[j]
 			}
 		}
+		if i < len(n)-1 {
+			diffs[n[i+1]-n[i]]++
+		}
 	}
-	return c[len(c)-1]
-}
-
-func solve(inputF string) (int, int) {
-	part1 := int(0)
-	part2 := int(0)
-
-	n := []int{0}
-	n = append(n, input.InputToIntSlice(inputF)...)
-	sort.Ints(n)
-	n = append(n, n[len(n)-1]+3)
-	part1 = byOneTimesByThreeDifferences(n)
-	part2 = possibleArrangements(n)
-	return part1, part2
+	return diffs[1] * diffs[3], c[len(c)-1]
 }
 
 func main() {
