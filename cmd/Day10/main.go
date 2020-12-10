@@ -9,16 +9,11 @@ import (
 )
 
 func byOneTimesByThreeDifferences(n []int) int {
-	byOne := 0
-	byThree := 0
+	diffs := map[int]int{}
 	for i := 0; i < len(n)-1; i++ {
-		if n[i+1]-n[i] == 1 {
-			byOne++
-		} else if n[i+1]-n[i] == 3 {
-			byThree++
-		}
+		diffs[n[i+1]-n[i]]++
 	}
-	return byOne * byThree
+	return diffs[1] * diffs[3]
 }
 
 func possibleArrangements(n []int) int {
