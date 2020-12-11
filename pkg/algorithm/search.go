@@ -29,3 +29,28 @@ func BinarySearch(a []int, search int) int {
 		return mid
 	}
 }
+
+// Note: assumes search is NOT in the array
+func ClosestTwoElements(a []int, search int) (int, int) {
+	if len(a) == 0 {
+		return -1, -1
+	}
+	if len(a) == 1 {
+		if a[0] < search {
+			return a[0], -1
+		}
+		return -1, a[0]
+	}
+	mid := len(a) / 2
+	midV := a[mid]
+	midPrevV := a[mid-1]
+
+	if midPrevV < search && midV > search {
+		return midPrevV, midV
+	}
+
+	if midPrevV < search && mid < search {
+		return ClosestTwoElements(a[mid+1:], search)
+	}
+	return ClosestTwoElements(a[:mid], search)
+}
