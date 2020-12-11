@@ -16,3 +16,5 @@
 inputs/
 /cmd/Day08/.DS_Store
 /cmd/Day09/.DS_Store
+
+/cmd/Day11/main
