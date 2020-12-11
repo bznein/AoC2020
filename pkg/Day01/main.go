@@ -18,6 +18,7 @@ const (
 func Solve(inputF string) (int, int) {
 	defer timing.TimeTrack(time.Now())
 	part1 := -1
+	part2 := -1
 	ints := input.InputToIntSlice(inputF)
 	sort.Ints(ints)
 	visualize.Init()
@@ -26,29 +27,37 @@ func Solve(inputF string) (int, int) {
 		if i > target {
 			continue
 		}
-		day.ShowSearchLine(target, i, nil)
-		res := algorithm.BinarySearch(ints, target-i)
-		if res != -1 && res != idx {
-			part1 = ints[res] * i
-			day.ShowCurrentResult(part1, nil)
-			break
+		if part2 == -1 {
+			lower := idx + 1
+			upper := len(ints) - 1
+			for lower < upper {
+				sum := i + ints[lower] + ints[upper]
+				if sum == target {
+					part2 = i * ints[lower] * ints[upper]
+					day.ShowCurrentResult(part1, &part2)
+					if part1 == -1 {
+						return part1, part2
+					}
+					break
+				} else if sum < target {
+					lower++
+				} else {
+					upper--
+				}
+			}
+		}
+		if part1 == -1 {
+			day.ShowSearchLine(target, i, nil)
+			res := algorithm.BinarySearch(ints, target-i)
+			if res != -1 && res != idx {
+				part1 = ints[res] * i
+				day.ShowCurrentResult(part1, nil)
+				if part2 != -1 {
+					break
+				}
+			}
 		}
 	}
 
-	//Dumb solution, terrible complexity, don't care
-	for idx, i := range ints {
-		for idx2, i2 := range ints {
-			if i+i2 > target {
-				continue
-			}
-			day.ShowSearchLine(target, i, &i2)
-			res := algorithm.BinarySearch(ints, target-i-i2)
-			if res != -1 && res != idx && res != idx2 {
-				p2 := ints[res] * i * i2
-				day.ShowCurrentResult(part1, &p2)
-				return part1, p2
-			}
-		}
-	}
-	return part1, -1
+	return part1, part2
 }
