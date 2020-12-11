@@ -139,6 +139,7 @@ func solveOnePart(seats []string, maxOccupied int, maxLook int) int {
 }
 
 func solve(inputF string) (int, int) {
+	defer timing.TimeTrack(time.Now())
 	part1 := 0
 	part2 := 0
 
