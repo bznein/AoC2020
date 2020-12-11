@@ -98,20 +98,6 @@ func occupiedAdjacentSeats(seats []string, row int, column int, maxLook int) int
 	return tot
 }
 
-func totalOccupied(seats []string) int {
-	tot := 0
-	for _, r := range seats {
-		for _, c := range r {
-			if c == occupied {
-				tot++
-			}
-		}
-	}
-	return tot
-}
-
-//TODO just one function
-
 func solveOnePart(seats []string, maxOccupied int, maxLook int) int {
 	defer timing.TimeTrack(time.Now())
 	for {
