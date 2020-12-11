@@ -101,40 +101,40 @@ func occupiedAdjacentSeats(seats []string, row int, column int, maxLook int) int
 func solveOnePart(seats []string, maxOccupied int, maxLook int) int {
 	defer timing.TimeTrack(time.Now())
 	for {
-		seatsTemp := make([]string, len(seats))
 		changes := false
 		totOccupied := 0
+		sbs := make([]strings.Builder, len(seats))
 		for i, row := range seats {
-			var sb strings.Builder
 			for j, column := range row {
 				switch column {
 				case floor:
-					sb.WriteRune(floor)
+					sbs[i].WriteRune(floor)
 				case empty:
 					if occupiedAdjacentSeats(seats, i, j, maxLook) == 0 {
-						sb.WriteRune(occupied)
+						sbs[i].WriteRune(occupied)
 						totOccupied++
 						changes = true
 					} else {
-						sb.WriteRune(empty)
+						sbs[i].WriteRune(empty)
 					}
 				case occupied:
 					if occupiedAdjacentSeats(seats, i, j, maxLook) >= maxOccupied {
-						sb.WriteRune(empty)
+						sbs[i].WriteRune(empty)
 						changes = true
 					} else {
-						sb.WriteRune(occupied)
+						sbs[i].WriteRune(occupied)
 						totOccupied++
 					}
 				}
 			}
-			seatsTemp[i] = sb.String()
 		}
 		if !changes {
 			return totOccupied
 
 		}
-		copy(seats, seatsTemp)
+		for i := range seats {
+			seats[i] = sbs[i].String()
+		}
 	}
 }
 
