@@ -110,49 +110,14 @@ func totalOccupied(seats []string) int {
 	return tot
 }
 
-func solvePart1(seats []string) int {
+//TODO just one function
+
+func solveOnePart(seats []string, maxOccupied int, maxLook int) int {
 	defer timing.TimeTrack(time.Now())
 	for {
 		seatsTemp := make([]string, len(seats))
 		changes := false
-		for i, row := range seats {
-			var sb strings.Builder
-			for j, column := range row {
-				switch column {
-				case floor:
-					sb.WriteRune(floor)
-				case empty:
-					if occupiedAdjacentSeats(seats, i, j, 1) == 0 {
-						sb.WriteRune(occupied)
-						changes = true
-					} else {
-						sb.WriteRune(empty)
-					}
-				case occupied:
-					if occupiedAdjacentSeats(seats, i, j, 1) >= 4 {
-						sb.WriteRune(empty)
-						changes = true
-					} else {
-						sb.WriteRune(occupied)
-					}
-				}
-			}
-			seatsTemp[i] = sb.String()
-		}
-		if !changes {
-			return totalOccupied(seatsTemp)
-
-		}
-		copy(seats, seatsTemp)
-	}
-}
-
-func solvePart2(seats []string) int {
-	defer timing.TimeTrack(time.Now())
-	maxLook := algorithm.Max(len(seats), len(seats[0]))
-	for {
-		seatsTemp := make([]string, len(seats))
-		changes := false
+		totOccupied := 0
 		for i, row := range seats {
 			var sb strings.Builder
 			for j, column := range row {
@@ -162,26 +127,27 @@ func solvePart2(seats []string) int {
 				case empty:
 					if occupiedAdjacentSeats(seats, i, j, maxLook) == 0 {
 						sb.WriteRune(occupied)
+						totOccupied++
 						changes = true
 					} else {
 						sb.WriteRune(empty)
 					}
 				case occupied:
-					if occupiedAdjacentSeats(seats, i, j, maxLook) >= 5 {
+					if occupiedAdjacentSeats(seats, i, j, maxLook) >= maxOccupied {
 						sb.WriteRune(empty)
 						changes = true
 					} else {
 						sb.WriteRune(occupied)
+						totOccupied++
 					}
 				}
 			}
 			seatsTemp[i] = sb.String()
 		}
 		if !changes {
-			return totalOccupied(seatsTemp)
+			return totOccupied
 
 		}
-
 		copy(seats, seatsTemp)
 	}
 }
@@ -191,9 +157,9 @@ func solve(inputF string) (int, int) {
 	part2 := 0
 
 	n := input.InputToStringSlice(inputF)
-	part1 = solvePart1(n)
+	part1 = solveOnePart(n, 4, 1)
 	n = input.InputToStringSlice(inputF)
-	part2 = solvePart2(n)
+	part2 = solveOnePart(n, 5, algorithm.Max(len(n), len(n[0])))
 	return part1, part2
 }
 
