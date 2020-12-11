@@ -15,11 +15,74 @@ const (
 	occupied = '#'
 )
 
+func occupiedAdjacentSeatsByOne(seats []string, row int, column int) int {
+	tot := 0
+
+	upRow := row - 1
+	leftCol := column - 1
+	downRow := row + 1
+	rightCol := column + 1
+
+	canLookUp := upRow >= 0
+	canLookDown := downRow < len(seats)
+	canLookLeft := leftCol >= 0
+	canLookRight := rightCol < len(seats[0])
+	canLookUpLeft := canLookUp && canLookLeft
+	canLookUpRight := canLookUp && canLookRight
+	canLookDownLeft := canLookDown && canLookLeft
+	canLookDownRight := canLookDown && canLookRight
+
+	// Look up
+	if canLookUp && seats[upRow][column] == occupied {
+		tot++
+	}
+
+	// Look down
+	if canLookDown && seats[downRow][column] == occupied {
+		tot++
+	}
+
+	// Look right
+	if canLookRight && seats[row][rightCol] == occupied {
+		tot++
+	}
+
+	// Look left
+	if canLookLeft && seats[row][leftCol] == occupied {
+		tot++
+	}
+
+	// Look Upper Left
+	if canLookUpLeft && seats[upRow][leftCol] == occupied {
+		tot++
+	}
+
+	// Look Upper Right
+	if canLookUpRight && seats[upRow][rightCol] == occupied {
+		tot++
+	}
+
+	// Look Lower Left
+	if canLookDownLeft && seats[downRow][leftCol] == occupied {
+		tot++
+	}
+
+	// Look Lower Right
+	if canLookDownRight && seats[downRow][rightCol] == occupied {
+		tot++
+	}
+
+	return tot
+}
+
 func occupiedAdjacentSeats(seats []string, row int, column int, maxLook int) int {
+	if maxLook == 1 {
+		return occupiedAdjacentSeatsByOne(seats, row, column)
+	}
 	tot := 0
 
 	// Look up
-	for i := row - 1; i >= 0 && row-i <= maxLook; i-- {
+	for i := row - 1; i >= 0; i-- {
 		if seats[i][column] == occupied {
 			tot++
 			break
@@ -28,7 +91,7 @@ func occupiedAdjacentSeats(seats []string, row int, column int, maxLook int) int
 		}
 	}
 	// Look down
-	for i := row + 1; i < len(seats) && i-row <= maxLook; i++ {
+	for i := row + 1; i < len(seats); i++ {
 		if seats[i][column] == occupied {
 			tot++
 			break
@@ -37,7 +100,7 @@ func occupiedAdjacentSeats(seats []string, row int, column int, maxLook int) int
 		}
 	}
 	// Look left
-	for j := column - 1; j >= 0 && column-j <= maxLook; j-- {
+	for j := column - 1; j >= 0; j-- {
 		if seats[row][j] == occupied {
 			tot++
 			break
@@ -46,7 +109,7 @@ func occupiedAdjacentSeats(seats []string, row int, column int, maxLook int) int
 		}
 	}
 	// Look right
-	for j := column + 1; j < len(seats[row]) && j-column <= maxLook; j++ {
+	for j := column + 1; j < len(seats[row]); j++ {
 		if seats[row][j] == occupied {
 			tot++
 			break
@@ -56,7 +119,7 @@ func occupiedAdjacentSeats(seats []string, row int, column int, maxLook int) int
 	}
 
 	// Look Upper Left
-	for i, j := row-1, column-1; i >= 0 && j >= 0 && row-i <= maxLook; i, j = i-1, j-1 {
+	for i, j := row-1, column-1; i >= 0 && j >= 0; i, j = i-1, j-1 {
 		if seats[i][j] == occupied {
 			tot++
 			break
@@ -66,7 +129,7 @@ func occupiedAdjacentSeats(seats []string, row int, column int, maxLook int) int
 	}
 
 	// Look Upper Right
-	for i, j := row-1, column+1; i >= 0 && j < len(seats[i]) && row-i <= maxLook; i, j = i-1, j+1 {
+	for i, j := row-1, column+1; i >= 0 && j < len(seats[i]); i, j = i-1, j+1 {
 		if seats[i][j] == occupied {
 			tot++
 			break
@@ -76,7 +139,7 @@ func occupiedAdjacentSeats(seats []string, row int, column int, maxLook int) int
 	}
 
 	// Look Lower Left
-	for i, j := row+1, column-1; i < len(seats) && j >= 0 && i-row <= maxLook; i, j = i+1, j-1 {
+	for i, j := row+1, column-1; i < len(seats) && j >= 0; i, j = i+1, j-1 {
 		if seats[i][j] == occupied {
 			tot++
 			break
@@ -86,7 +149,7 @@ func occupiedAdjacentSeats(seats []string, row int, column int, maxLook int) int
 	}
 
 	// Look Lower Right
-	for i, j := row+1, column+1; i < len(seats) && j < len(seats[row]) && i-row <= maxLook; i, j = i+1, j+1 {
+	for i, j := row+1, column+1; i < len(seats) && j < len(seats[row]); i, j = i+1, j+1 {
 		if seats[i][j] == occupied {
 			tot++
 			break
