@@ -15,14 +15,28 @@ import (
 	"github.com/bznein/AoC2020/pkg/Day09"
 	"github.com/bznein/AoC2020/pkg/Day10"
 	"github.com/bznein/AoC2020/pkg/Day11"
+	"github.com/bznein/AoC2020/pkg/Day12"
+	"github.com/bznein/AoC2020/pkg/Day13"
+	"github.com/bznein/AoC2020/pkg/Day14"
+	"github.com/bznein/AoC2020/pkg/Day15"
+	"github.com/bznein/AoC2020/pkg/Day16"
+	"github.com/bznein/AoC2020/pkg/Day17"
+	"github.com/bznein/AoC2020/pkg/Day18"
+	"github.com/bznein/AoC2020/pkg/Day19"
+	"github.com/bznein/AoC2020/pkg/Day20"
+	"github.com/bznein/AoC2020/pkg/Day21"
+	"github.com/bznein/AoC2020/pkg/Day22"
+	"github.com/bznein/AoC2020/pkg/Day23"
+	"github.com/bznein/AoC2020/pkg/Day24"
+	"github.com/bznein/AoC2020/pkg/Day25"
 	"github.com/bznein/AoC2020/pkg/input"
 	"github.com/bznein/AoC2020/pkg/timing"
 )
 
-func readAllInputs(days int) []string {
+func readAllInputs() []string {
 	defer timing.TimeTrack(time.Now())
-	inputs := make([]string, days)
-	for i := 0; i < days; i++ {
+	inputs := make([]string, 25)
+	for i := 0; i < 25; i++ {
 		inputs[i] = input.ReadInput(fmt.Sprintf("../inputs/%d.txt", i+1))
 	}
 	return inputs
@@ -30,7 +44,7 @@ func readAllInputs(days int) []string {
 
 func timeSolves() {
 	defer timing.TimeTrack(time.Now())
-	inputs := readAllInputs(time.Now().Day())
+	inputs := readAllInputs()
 	Day01.Solve(inputs[0])
 	Day02.Solve(inputs[1])
 	Day03.Solve(inputs[2])
@@ -42,6 +56,20 @@ func timeSolves() {
 	Day09.Solve(inputs[8])
 	Day10.Solve(inputs[9])
 	Day11.Solve(inputs[10])
+	Day12.Solve(inputs[11])
+	Day13.Solve(inputs[12])
+	Day14.Solve(inputs[13])
+	Day15.Solve(inputs[14])
+	Day16.Solve(inputs[15])
+	Day17.Solve(inputs[16])
+	Day18.Solve(inputs[17])
+	Day19.Solve(inputs[18])
+	Day20.Solve(inputs[19])
+	Day21.Solve(inputs[20])
+	Day22.Solve(inputs[21])
+	Day23.Solve(inputs[22])
+	Day24.Solve(inputs[23])
+	Day25.Solve(inputs[24])
 }
 
 func solve(day int) (int, int) {
