@@ -1,13 +1,15 @@
-package main
+package Day10
 
 import (
-	"fmt"
+	"time"
 
 	"github.com/bznein/AoC2020/pkg/algorithm"
 	"github.com/bznein/AoC2020/pkg/input"
+	"github.com/bznein/AoC2020/pkg/timing"
 )
 
-func solve(inputF string) (int, int) {
+func Solve(inputF string) (int, int) {
+	defer timing.TimeTrack(time.Now())
 	n := []int{0}
 	n = append(n, input.InputToIntSlice(inputF)...)
 	n = algorithm.CountingSort(n)
@@ -26,13 +28,4 @@ func solve(inputF string) (int, int) {
 		}
 	}
 	return diffs[1] * diffs[3], c[len(c)-1]
-}
-
-func main() {
-	input.ParseFlags()
-	inputF := input.ReadInput(fmt.Sprintf("../../inputs/10.txt"))
-
-	p1, p2 := solve(inputF)
-	fmt.Printf("Part 1: %d, Part2: %d\n", p1, p2)
-
 }

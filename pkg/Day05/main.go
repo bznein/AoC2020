@@ -1,4 +1,4 @@
-package main
+package Day05
 
 import (
 	"fmt"
@@ -9,6 +9,7 @@ import (
 
 	"github.com/bznein/AoC2020/pkg/input"
 	"github.com/bznein/AoC2020/pkg/term"
+	"github.com/bznein/AoC2020/pkg/timing"
 )
 
 func column(boardingPass string) int {
@@ -29,7 +30,8 @@ func seatID(boardingPass string) int {
 	return row(boardingPass)*8 + column(boardingPass)
 }
 
-func solve(inputF string) (int, int) {
+func Solve(inputF string) (int, int) {
+	defer timing.TimeTrack(time.Now())
 	part1 := int(0)
 	part2 := int(0)
 	min := math.MaxInt64
@@ -119,11 +121,4 @@ func solve(inputF string) (int, int) {
 
 	return part1, part2
 
-}
-
-func main() {
-	input.ParseFlags()
-	inputF := input.ReadInput(fmt.Sprintf("../../inputs/5.txt"))
-	p1, p2 := solve(inputF)
-	fmt.Printf("Part 1: %d, Part2: %d\n", p1, p2)
 }

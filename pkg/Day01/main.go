@@ -1,19 +1,22 @@
-package main
+package Day01
 
 import (
-	"fmt"
 	"sort"
+	"time"
 
 	"github.com/bznein/AoC2020/pkg/algorithm"
 	"github.com/bznein/AoC2020/pkg/input"
+	"github.com/bznein/AoC2020/pkg/timing"
 	"github.com/bznein/AoC2020/pkg/visualize"
+	day "github.com/bznein/AoC2020/pkg/visualize/Day01"
 )
 
 const (
 	target = 2020
 )
 
-func solve(inputF string) (int, int) {
+func Solve(inputF string) (int, int) {
+	defer timing.TimeTrack(time.Now())
 	part1 := -1
 	ints := input.InputToIntSlice(inputF)
 	sort.Ints(ints)
@@ -48,11 +51,4 @@ func solve(inputF string) (int, int) {
 		}
 	}
 	return part1, -1
-}
-
-func main() {
-	input.ParseFlags()
-	inputF := input.ReadInput(fmt.Sprintf("../../inputs/1.txt"))
-	p1, p2 := solve(inputF)
-	fmt.Printf("Part 1: %d, Part2: %d\n", p1, p2)
 }

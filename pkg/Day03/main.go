@@ -1,4 +1,4 @@
-package main
+package Day03
 
 import (
 	"fmt"
@@ -7,6 +7,7 @@ import (
 	"github.com/bznein/AoC2020/pkg/input"
 	"github.com/bznein/AoC2020/pkg/strings"
 	"github.com/bznein/AoC2020/pkg/term"
+	"github.com/bznein/AoC2020/pkg/timing"
 )
 
 type maze []string
@@ -68,7 +69,8 @@ func explore(m maze, i, j int) int {
 	return res
 }
 
-func solve(inputF string) (int, int) {
+func Solve(inputF string) (int, int) {
+	defer timing.TimeTrack(time.Now())
 	var m maze
 	m = input.InputToStringSlice(inputF)
 	part1 = 0
@@ -85,11 +87,4 @@ func solve(inputF string) (int, int) {
 	try++
 	part2 *= explore(m, 2, 1)
 	return part1, part2
-}
-
-func main() {
-	input.ParseFlags()
-	inputF := input.ReadInput(fmt.Sprintf("../../inputs/3.txt"))
-	p1, p2 := solve(inputF)
-	fmt.Printf("Part 1: %d, Part2: %d\n", p1, p2)
 }

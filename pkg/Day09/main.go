@@ -1,16 +1,17 @@
-package main
+package Day09
 
 import (
-	"fmt"
+	"time"
 
 	"github.com/bznein/AoC2020/pkg/algorithm"
 	"github.com/bznein/AoC2020/pkg/input"
+	"github.com/bznein/AoC2020/pkg/timing"
 )
 
 type preambleSums []int
 
 const (
-	preambleLength = 5
+	preambleLength = 25
 )
 
 func getPreambleSums(n []int) preambleSums {
@@ -62,7 +63,8 @@ func minMaxSlice(slice []int) (int, int) {
 	return min, max
 }
 
-func solve(inputF string) (int, int) {
+func Solve(inputF string) (int, int) {
+	defer timing.TimeTrack(time.Now())
 	part1 := int(0)
 	part2 := int(0)
 
@@ -85,15 +87,4 @@ func solve(inputF string) (int, int) {
 	}
 
 	return part1, part2
-}
-
-func main() {
-	input.ParseFlags()
-	inputF := input.ReadInput(fmt.Sprintf("../../inputs/9.txt"))
-	if input.Visualize {
-		visualSolve(inputF)
-	} else {
-		p1, p2 := solve(inputF)
-		fmt.Printf("Part 1: %d, Part2: %d\n", p1, p2)
-	}
 }

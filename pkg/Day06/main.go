@@ -1,4 +1,4 @@
-package main
+package Day06
 
 import (
 	"fmt"
@@ -6,6 +6,7 @@ import (
 
 	"github.com/bznein/AoC2020/pkg/input"
 	"github.com/bznein/AoC2020/pkg/term"
+	"github.com/bznein/AoC2020/pkg/timing"
 	"github.com/nsf/termbox-go"
 )
 
@@ -102,7 +103,8 @@ func clearStickFigures() {
 	}
 }
 
-func solve(inputF string) (int, int) {
+func Solve(inputF string) (int, int) {
+	defer timing.TimeTrack(time.Now())
 	part1 := 0
 	part2 := 0
 
@@ -128,11 +130,4 @@ func solve(inputF string) (int, int) {
 		time.Sleep(time.Millisecond * input.Delay * 3)
 	}
 	return part1, part2
-}
-
-func main() {
-	input.ParseFlags()
-	inputF := input.ReadInput(fmt.Sprintf("../../inputs/6.txt"))
-	p1, p2 := solve(inputF)
-	fmt.Printf("Part 1: %d, Part2: %d\n", p1, p2)
 }

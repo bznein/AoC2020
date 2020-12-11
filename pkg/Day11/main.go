@@ -1,7 +1,6 @@
-package main
+package Day11
 
 import (
-	"fmt"
 	"strings"
 	"time"
 
@@ -99,7 +98,6 @@ func occupiedAdjacentSeats(seats []string, row int, column int, maxLook int) int
 }
 
 func solveOnePart(seats []string, maxOccupied int, maxLook int) int {
-	defer timing.TimeTrack(time.Now())
 	for {
 		changes := false
 		totOccupied := 0
@@ -138,7 +136,7 @@ func solveOnePart(seats []string, maxOccupied int, maxLook int) int {
 	}
 }
 
-func solve(inputF string) (int, int) {
+func Solve(inputF string) (int, int) {
 	defer timing.TimeTrack(time.Now())
 	part1 := 0
 	part2 := 0
@@ -148,13 +146,4 @@ func solve(inputF string) (int, int) {
 	n = input.InputToStringSlice(inputF)
 	part2 = solveOnePart(n, 5, algorithm.Max(len(n), len(n[0])))
 	return part1, part2
-}
-
-func main() {
-	input.ParseFlags()
-	inputF := input.ReadInput(fmt.Sprintf("../../inputs/11.txt"))
-
-	p1, p2 := solve(inputF)
-	fmt.Printf("Part 1: %d, Part2: %d\n", p1, p2)
-
 }

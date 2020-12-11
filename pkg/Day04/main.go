@@ -1,4 +1,4 @@
-package main
+package Day04
 
 import (
 	"fmt"
@@ -7,9 +7,11 @@ import (
 	"github.com/bznein/AoC2020/pkg/input"
 	"github.com/bznein/AoC2020/pkg/passport"
 	"github.com/bznein/AoC2020/pkg/term"
+	"github.com/bznein/AoC2020/pkg/timing"
 )
 
-func solve(inputF string) (int, int) {
+func Solve(inputF string) (int, int) {
+	defer timing.TimeTrack(time.Now())
 	part1 := 0
 	part2 := 0
 
@@ -54,11 +56,4 @@ func solve(inputF string) (int, int) {
 	}
 
 	return part1, part2
-}
-
-func main() {
-	input.ParseFlags()
-	inputF := input.ReadInput(fmt.Sprintf("../../inputs/4.txt"))
-	p1, p2 := solve(inputF)
-	fmt.Printf("Part 1: %d, Part2: %d\n", p1, p2)
 }
