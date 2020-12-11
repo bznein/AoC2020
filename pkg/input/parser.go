@@ -5,9 +5,13 @@ import (
 	"log"
 	"strconv"
 	"strings"
+	"time"
+
+	"github.com/bznein/AoC2020/pkg/timing"
 )
 
 func ReadInput(path string) string {
+	defer timing.TimeTrack(time.Now())
 	// Read entire file content, giving us little control but
 	// making it very simple. No need to close the file.
 	content, err := ioutil.ReadFile(path)
