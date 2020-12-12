@@ -205,8 +205,9 @@ func Solve(inputF string) (int, int) {
 	part2 := 0
 
 	n := twod.Grid(input.InputToStringSlice(inputF))
+	n2 := make(twod.Grid, len(n))
+	copy(n2, n)
 	part1 = solveOnePart(n, 4, 1)
-	n = twod.Grid(input.InputToStringSlice(inputF))
-	part2 = solveOnePart(n, 5, algorithm.Max(len(n), len(n[0])))
+	part2 = solveOnePart(n2, 5, algorithm.Max(len(n), len(n[0])))
 	return part1, part2
 }
