@@ -101,6 +101,32 @@ func solve(day int) (int, int) {
 		return Day11.Solve(inputF)
 	case 12:
 		return Day12.Solve(inputF)
+	case 13:
+		return Day13.Solve(inputF)
+	case 14:
+		return Day14.Solve(inputF)
+	case 15:
+		return Day15.Solve(inputF)
+	case 16:
+		return Day16.Solve(inputF)
+	case 17:
+		return Day17.Solve(inputF)
+	case 18:
+		return Day18.Solve(inputF)
+	case 19:
+		return Day19.Solve(inputF)
+	case 20:
+		return Day20.Solve(inputF)
+	case 21:
+		return Day21.Solve(inputF)
+	case 22:
+		return Day22.Solve(inputF)
+	case 23:
+		return Day23.Solve(inputF)
+	case 24:
+		return Day24.Solve(inputF)
+	case 25:
+		return Day25.Solve(inputF)
 	}
 	return -1, -1
 }
