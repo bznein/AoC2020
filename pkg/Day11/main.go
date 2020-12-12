@@ -7,6 +7,7 @@ import (
 	"github.com/bznein/AoC2020/pkg/algorithm"
 	"github.com/bznein/AoC2020/pkg/input"
 	"github.com/bznein/AoC2020/pkg/timing"
+	"github.com/bznein/AoC2020/pkg/twod"
 )
 
 const (
@@ -15,67 +16,58 @@ const (
 	occupied = '#'
 )
 
-func occupiedAdjacentSeatsByOne(seats []string, row int, column int) int {
+func occupiedAdjacentSeatsByOne(seats twod.Grid, row int, column int) int {
 	tot := 0
 
-	upRow := row - 1
-	leftCol := column - 1
-	downRow := row + 1
-	rightCol := column + 1
-
-	canLookUp := upRow >= 0
-	canLookDown := downRow < len(seats)
-	canLookLeft := leftCol >= 0
-	canLookRight := rightCol < len(seats[0])
-	canLookUpLeft := canLookUp && canLookLeft
-	canLookUpRight := canLookUp && canLookRight
-	canLookDownLeft := canLookDown && canLookLeft
-	canLookDownRight := canLookDown && canLookRight
-
 	// Look up
-	if canLookUp && seats[upRow][column] == occupied {
+	if seats.IsEntry(row-1, column, occupied) {
 		tot++
 	}
 
 	// Look down
-	if canLookDown && seats[downRow][column] == occupied {
+	if seats.IsEntry(row+1, column, occupied) {
 		tot++
 	}
 
 	// Look right
-	if canLookRight && seats[row][rightCol] == occupied {
+	if seats.IsEntry(row, column+1, occupied) {
 		tot++
 	}
 
-	// Look left
-	if canLookLeft && seats[row][leftCol] == occupied {
+	// Look leftt
+	if seats.IsEntry(row, column-1, occupied) {
 		tot++
 	}
 
 	// Look Upper Left
-	if canLookUpLeft && seats[upRow][leftCol] == occupied {
+	if seats.IsEntry(row-1, column-1, occupied) {
 		tot++
 	}
 
 	// Look Upper Right
-	if canLookUpRight && seats[upRow][rightCol] == occupied {
+	if seats.IsEntry(row-1, column+1, occupied) {
 		tot++
 	}
 
 	// Look Lower Left
-	if canLookDownLeft && seats[downRow][leftCol] == occupied {
+	if seats.IsEntry(row+1, column-1, occupied) {
 		tot++
 	}
 
 	// Look Lower Right
-	if canLookDownRight && seats[downRow][rightCol] == occupied {
+	if seats.IsEntry(row+1, column+1, occupied) {
 		tot++
 	}
 
 	return tot
 }
 
-func occupiedAdjacentSeats(seats []string, row int, column int, maxLook int) int {
+func isOccupiedOrAtLeastNotFLoor(seats twod.Grid, i int, j int) (bool, bool) {
+	c, _ := seats.EntryAt(i, j)
+	return c == occupied, c != floor
+}
+
+func occupiedAdjacentSeats(seats twod.Grid, row int, column int, maxLook int) int {
 	if maxLook == 1 {
 		return occupiedAdjacentSeatsByOne(seats, row, column)
 	}
@@ -83,84 +75,92 @@ func occupiedAdjacentSeats(seats []string, row int, column int, maxLook int) int
 
 	// Look up
 	for i := row - 1; i >= 0; i-- {
-		if seats[i][column] == occupied {
+		incr, shouldBreak := isOccupiedOrAtLeastNotFLoor(seats, i, column)
+		if incr {
 			tot++
-			break
-		} else if seats[i][column] == empty {
+		}
+		if shouldBreak {
 			break
 		}
 	}
 	// Look down
 	for i := row + 1; i < len(seats); i++ {
-		if seats[i][column] == occupied {
+		incr, shouldBreak := isOccupiedOrAtLeastNotFLoor(seats, i, column)
+		if incr {
 			tot++
-			break
-		} else if seats[i][column] == empty {
+		}
+		if shouldBreak {
 			break
 		}
 	}
 	// Look left
 	for j := column - 1; j >= 0; j-- {
-		if seats[row][j] == occupied {
+		incr, shouldBreak := isOccupiedOrAtLeastNotFLoor(seats, row, j)
+		if incr {
 			tot++
-			break
-		} else if seats[row][j] == empty {
+		}
+		if shouldBreak {
 			break
 		}
 	}
 	// Look right
 	for j := column + 1; j < len(seats[row]); j++ {
-		if seats[row][j] == occupied {
+		incr, shouldBreak := isOccupiedOrAtLeastNotFLoor(seats, row, j)
+		if incr {
 			tot++
-			break
-		} else if seats[row][j] == empty {
+		}
+		if shouldBreak {
 			break
 		}
 	}
 
 	// Look Upper Left
 	for i, j := row-1, column-1; i >= 0 && j >= 0; i, j = i-1, j-1 {
-		if seats[i][j] == occupied {
+		incr, shouldBreak := isOccupiedOrAtLeastNotFLoor(seats, i, j)
+		if incr {
 			tot++
-			break
-		} else if seats[i][j] == empty {
+		}
+		if shouldBreak {
 			break
 		}
 	}
 
 	// Look Upper Right
 	for i, j := row-1, column+1; i >= 0 && j < len(seats[i]); i, j = i-1, j+1 {
-		if seats[i][j] == occupied {
+		incr, shouldBreak := isOccupiedOrAtLeastNotFLoor(seats, i, j)
+		if incr {
 			tot++
-			break
-		} else if seats[i][j] == empty {
+		}
+		if shouldBreak {
 			break
 		}
 	}
 
 	// Look Lower Left
 	for i, j := row+1, column-1; i < len(seats) && j >= 0; i, j = i+1, j-1 {
-		if seats[i][j] == occupied {
+		incr, shouldBreak := isOccupiedOrAtLeastNotFLoor(seats, i, j)
+		if incr {
 			tot++
-			break
-		} else if seats[i][j] == empty {
+		}
+		if shouldBreak {
 			break
 		}
 	}
 
 	// Look Lower Right
 	for i, j := row+1, column+1; i < len(seats) && j < len(seats[row]); i, j = i+1, j+1 {
-		if seats[i][j] == occupied {
+		incr, shouldBreak := isOccupiedOrAtLeastNotFLoor(seats, i, j)
+		if incr {
 			tot++
-			break
-		} else if seats[i][j] == empty {
+		}
+		if shouldBreak {
 			break
 		}
 	}
 	return tot
 }
 
-func solveOnePart(seats []string, maxOccupied int, maxLook int) int {
+func solveOnePart(seats twod.Grid, maxOccupied int, maxLook int) int {
 	for {
 		changes := false
 		totOccupied := 0
@@ -204,9 +204,9 @@ func Solve(inputF string) (int, int) {
 	part1 := 0
 	part2 := 0
 
-	n := input.InputToStringSlice(inputF)
+	n := twod.Grid(input.InputToStringSlice(inputF))
 	part1 = solveOnePart(n, 4, 1)
-	n = input.InputToStringSlice(inputF)
+	n = twod.Grid(input.InputToStringSlice(inputF))
 	part2 = solveOnePart(n, 5, algorithm.Max(len(n), len(n[0])))
 	return part1, part2
 }

@@ -1,6 +1,7 @@
 package twod
 
 import (
+	"fmt"
 	"math"
 )
 
@@ -20,25 +21,27 @@ func (g Grid) AreValidIndices(i, j int) bool {
 	return i >= 0 && i < len(g) && j >= 0 && j < len(g[i])
 }
 
-func (g Grid) EntryAt(i, j int) rune {
+func (g Grid) EntryAt(i, j int) (rune, error) {
 	if !g.AreValidIndices(i, j) {
-		panic("Unvalid Entries to grid!")
+		return '0', fmt.Errorf("Requested invalid indices")
 	}
-	return rune(g[i][j])
+	return rune(g[i][j]), nil
 }
 
 func (g Grid) IsEntry(i int, j int, c rune) bool {
-	return g.AreValidIndices(i, j) && g.EntryAt(i, j) == c
+	v, err := g.EntryAt(i, j)
+	return err == nil && v == c
 }
 
 func (p *Position) MoveBySlope(s Slope) {
 	p.MoveBy(s.I, s.J)
 }
+
 func (p *Position) MoveBySlopeWithWrapping(s Slope, iWrap int, jWrap int) {
 	p.MoveWithWrapping(s.I, s.J, iWrap, jWrap)
 }
-func (p Position) ManhattanDistance(p2 Position) int {
 
+func (p Position) ManhattanDistance(p2 Position) int {
 	return int(math.Abs(float64(p.I-p2.I)) + math.Abs(float64(p.J-p2.J)))
 
 }
