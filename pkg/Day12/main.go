@@ -1,30 +1,17 @@
 package Day12
 
 import (
-	"math"
 	"strconv"
 	"time"
 
 	"github.com/bznein/AoC2020/pkg/input"
 	"github.com/bznein/AoC2020/pkg/timing"
+	"github.com/bznein/AoC2020/pkg/twod"
 )
-
-//TODO refactor all 2D logic into one package
-
-type pos struct {
-	i int
-	j int
-}
 
 type command struct {
 	move rune
 	arg  int
-}
-
-func (p pos) manhattanDistance(p2 pos) int {
-
-	return int(math.Abs(float64(p.i-p2.i)) + math.Abs(float64(p.j-p2.j)))
-
 }
 
 type dir rune
@@ -40,21 +27,30 @@ func (d dir) rotate(towards rune, steps int) dir {
 }
 
 type ship struct {
-	position       pos
+	position       twod.Position
 	direction      dir
-	wayPointoffset pos
+	wayPointoffset twod.Position
+}
+
+func (s *ship) moveBy(i, j int) {
+	s.position.MoveBy(i, j)
+}
+
+func (s *ship) moveWaypointBy(i, j int) {
+	s.wayPointoffset.MoveBy(i, j)
 }
 
 func (s *ship) executeCommandP1(c command) {
 	switch c.move {
 	case 'N':
-		s.position.i -= c.arg
+		s.moveBy(-c.arg, 0)
 	case 'S':
-		s.position.i += c.arg
+		s.moveBy(c.arg, 0)
 	case 'E':
-		s.position.j += c.arg
+		s.moveBy(0, c.arg)
 	case 'W':
-		s.position.j -= c.arg
+		s.moveBy(0, -c.arg)
+
 	case 'F':
 		s.executeCommandP1(command{
 			move: rune(s.direction),
@@ -70,37 +66,18 @@ func (s *ship) executeCommandP1(c command) {
 func (s *ship) executeCommandP2(c command) {
 	switch c.move {
 	case 'N':
-		s.wayPointoffset.i -= c.arg
+		s.moveWaypointBy(-c.arg, 0)
 	case 'S':
-		s.wayPointoffset.i += c.arg
+		s.moveWaypointBy(c.arg, 0)
 	case 'E':
-		s.wayPointoffset.j += c.arg
+		s.moveWaypointBy(0, c.arg)
 	case 'W':
-		s.wayPointoffset.j -= c.arg
+		s.moveWaypointBy(0, -c.arg)
+
 	case 'F':
-		s.position.i += (s.wayPointoffset.i * c.arg)
-		s.position.j += (s.wayPointoffset.j * c.arg)
-
+		s.moveBy(s.wayPointoffset.I*c.arg, s.wayPointoffset.J*c.arg)
 	case 'R', 'L':
-		steps := int(c.arg / 90)
-		if c.move == 'L' {
-			steps = 4 - steps
-		}
-		oldI := s.wayPointoffset.i
-		oldJ := s.wayPointoffset.j
-		switch steps {
-		case 1:
-			s.wayPointoffset.j = -oldI
-			s.wayPointoffset.i = oldJ
-		case 2: //flips signs
-			s.wayPointoffset.i = -oldI
-			s.wayPointoffset.j = -oldJ
-		case 3:
-			s.wayPointoffset.j = oldI
-			s.wayPointoffset.i = -oldJ
-		case 4: //Nothing to do here
-		}
-
+		s.wayPointoffset.SnapRotate(c.move == 'R', c.arg)
 	}
 }
 
@@ -121,16 +98,16 @@ func Solve(inputF string) (int, int) {
 		}
 	}
 
-	curShip := ship{position: pos{i: 0, j: 0}, direction: 'E'}
-	p2Ship := ship{position: pos{i: 0, j: 0}, direction: 'E', wayPointoffset: pos{i: -1, j: 10}}
+	curShip := ship{position: twod.Position{I: 0, J: 0}, direction: 'E'}
+	p2Ship := ship{position: twod.Position{I: 0, J: 0}, direction: 'E', wayPointoffset: twod.Position{I: -1, J: 10}}
 
 	for _, c := range commands {
 		curShip.executeCommandP1(c)
 		p2Ship.executeCommandP2(c)
 	}
 
-	part1 = pos{}.manhattanDistance(curShip.position)
-	part2 = pos{}.manhattanDistance(p2Ship.position)
+	part1 = twod.Position{}.ManhattanDistance(curShip.position)
+	part2 = twod.Position{}.ManhattanDistance(p2Ship.position)
 
 	return part1, part2
 }
