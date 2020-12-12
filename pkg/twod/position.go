@@ -21,6 +21,10 @@ func (g Grid) AreValidIndices(i, j int) bool {
 	return i >= 0 && i < len(g) && j >= 0 && j < len(g[i])
 }
 
+func (g Grid) UnsafeEntry(i, j int) rune {
+	return rune(g[i][j])
+}
+
 func (g Grid) EntryAt(i, j int) (rune, error) {
 	if !g.AreValidIndices(i, j) {
 		return '0', fmt.Errorf("Requested invalid indices")

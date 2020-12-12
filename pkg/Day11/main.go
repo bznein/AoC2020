@@ -63,7 +63,7 @@ func occupiedAdjacentSeatsByOne(seats twod.Grid, row int, column int) int {
 }
 
 func isOccupiedOrAtLeastNotFLoor(seats twod.Grid, i int, j int) (bool, bool) {
-	c, _ := seats.EntryAt(i, j)
+	c := seats.UnsafeEntry(i, j)
 	return c == occupied, c != floor
 }
 
