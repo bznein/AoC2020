@@ -160,7 +160,7 @@ func occupiedAdjacentSeats(seats twod.Grid, row int, column int, maxLook int) in
 	return tot
 }
 
-func solveOnePart(seats twod.Grid, maxOccupied int, maxLook int) int {
+func solveOnePart(seats twod.Grid, maxOccupied int, maxLook int, channel chan int) {
 	for {
 		changes := false
 		totOccupied := 0
@@ -190,7 +190,7 @@ func solveOnePart(seats twod.Grid, maxOccupied int, maxLook int) int {
 			}
 		}
 		if !changes {
-			return totOccupied
+			channel <- totOccupied
 
 		}
 		for i := range seats {
@@ -207,7 +207,22 @@ func Solve(inputF string) (int, int) {
 	n := twod.Grid(input.InputToStringSlice(inputF))
 	n2 := make(twod.Grid, len(n))
 	copy(n2, n)
-	part1 = solveOnePart(n, 4, 1)
-	part2 = solveOnePart(n2, 5, algorithm.Max(len(n), len(n[0])))
+	c1 := make(chan int)
+	go solveOnePart(n, 4, 1, c1)
+	c2 := make(chan int)
+	go solveOnePart(n2, 5, algorithm.Max(len(n), len(n[0])), c2)
+
+	for {
+		if part1 != 0 && part2 != 0 {
+			break
+		}
+		select {
+		case p := <-c1:
+			part1 = p
+		case p := <-c2:
+			part2 = p
+		}
+	}
+
 	return part1, part2
 }
