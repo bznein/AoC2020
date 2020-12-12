@@ -5,45 +5,21 @@ import (
 
 	"github.com/bznein/AoC2020/pkg/input"
 	"github.com/bznein/AoC2020/pkg/timing"
+	"github.com/bznein/AoC2020/pkg/twod"
 )
-
-type maze []string
-
-type pos struct {
-	i int
-	j int
-}
-
-var try int
-var part1 int
-var part2 int
 
 //TODO visualization currently broken due to refatoring
 
-func (position *pos) moveBy(i, j int, limit int) {
-	position.i += i
-	position.j = (position.j + j) % limit
-}
-
-func (position *pos) moveBySlope(s slope, limit int) {
-	position.moveBy(s.i, s.j, limit)
-}
-
-type slope struct {
-	i int
-	j int
-}
-
-func explore(m maze, slopes []slope) (int, int) {
+func explore(m twod.Grid, slopes []twod.Slope) (int, int) {
 	p2 := 1
 
-	positions := make([]pos, len(slopes))
+	positions := make([]twod.Position, len(slopes))
 	results := make([]int, len(slopes))
 	finished := map[int]bool{}
 	outside := 0
 	for {
 		for i, p := range positions {
-			if p.i >= len(m) {
+			if p.I >= len(m) {
 				if _, ok := finished[i]; !ok {
 					p2 *= results[i]
 					outside++
@@ -55,10 +31,10 @@ func explore(m maze, slopes []slope) (int, int) {
 				continue
 			}
 
-			if m[p.i][p.j] == '#' {
+			if m.IsEntry(p.I, p.J, '#') {
 				results[i]++
 			}
-			p.moveBySlope(slopes[i], len(m[0]))
+			p.MoveBySlopeWithWrapping(slopes[i], -1, len(m[0]))
 			positions[i] = p
 		}
 	}
@@ -67,7 +43,6 @@ func explore(m maze, slopes []slope) (int, int) {
 
 func Solve(inputF string) (int, int) {
 	defer timing.TimeTrack(time.Now())
-	var m maze
-	m = input.InputToStringSlice(inputF)
-	return explore(m, []slope{{1, 3}, {1, 1}, {1, 5}, {1, 7}, {2, 1}})
+	m := twod.Grid(input.InputToStringSlice(inputF))
+	return explore(m, []twod.Slope{{1, 3}, {1, 1}, {1, 5}, {1, 7}, {2, 1}})
 }
