@@ -14,10 +14,10 @@ var (
 )
 
 func ParseFlags() {
-	flag.BoolVar(&Timing, "t", false, "Times the solution, do not show it")
+	flag.BoolVar(&Timing, "time", false, "Times the solution, do not show it")
 	flag.IntVar(&Day, "day", time.Now().Day(), "What day to solve [doesn't work for timing, which is applied to all days and then shows the results separated]")
-	flag.BoolVar(&Visualize, "v", false, "show visualization of solve")
-	d := flag.Int64("d", 300, "visualization delay")
+	flag.BoolVar(&Visualize, "visualize", false, "show visualization of solve")
+	d := flag.Int64("delay", 300, "visualization delay")
 	flag.Parse()
 	if !Visualize {
 		Delay = 0
