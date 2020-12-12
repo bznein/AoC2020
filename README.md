@@ -16,9 +16,9 @@ The repository is structured as follwos:
 
 
 ## Execution
-To execute unit tests, simply run `go test ./...` from the `root` directory (note: most package don't have tests so far, so you might just care about running it inside `cmd`)
+To execute unit tests, simply run `go test ./...` from the `root` directory (note: most packages don't have tests so far, so you might just care about running it inside `cmd`)
 
-To execute the solver, go into the `cmd` directory and build the executable: `go build solver.go`. This will create an executable called `solver`, whichcan be either used to solve a single day or to time the execution times of all days (note: visualization is also psosible, but enabled only for few days- nonexisting or broken for the others)
+To execute the solver, go into the `cmd` directory and build the executable: `go build solver.go`. This will create an executable called `solver`, which can be either used to solve a single day or to time the execution times of all days (note: visualization is also possible, but enabled only for few days- nonexisting or broken for the others)
 
 ### To execute a single day:
 
