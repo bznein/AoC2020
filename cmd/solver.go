@@ -99,6 +99,8 @@ func solve(day int) (int, int) {
 		return Day10.Solve(inputF)
 	case 11:
 		return Day11.Solve(inputF)
+	case 12:
+		return Day12.Solve(inputF)
 	}
 	return -1, -1
 }
