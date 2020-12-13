@@ -34,22 +34,14 @@ func Solve(inputF string) (int, int) {
 		}
 	}
 
-	// b1..bn are the keys in busTimes
-	// n1..nn are the values in bustimes
-
-	bigN := map[int]int{}
-	y := map[int]int{}
-
-	for i, v := range busTimes {
-		bigN[i] = totProd / v
-		bigInt := big.NewInt(int64(bigN[i]))
-		y[i] = int(bigInt.ModInverse(bigInt, big.NewInt(int64(v))).Int64())
-	}
-
 	x0 := 0
-	for i := range busTimes {
-		x0 += i * bigN[i] * y[i]
+	for i, v := range busTimes {
+		bigN := totProd / v
+		bigInt := big.NewInt(int64(bigN))
+		y := int(bigInt.ModInverse(bigInt, big.NewInt(int64(v))).Int64())
+		x0 += i * bigN * y
 	}
+
 	part2 = x0 % totProd
 
 	return minWait * minBusIdx, -part2
