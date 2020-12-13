@@ -24,7 +24,7 @@ func Solve(inputF string) (int, int) {
 	minBusIdx := -1
 	for i, v := range strings.Split(s[1], ",") {
 		if val, err := strconv.Atoi(v); err == nil {
-			waitTime := (val) - depTime%val
+			waitTime := val - depTime%val
 			if waitTime < minWait {
 				minWait = waitTime
 				minBusIdx = val
@@ -35,6 +35,7 @@ func Solve(inputF string) (int, int) {
 	}
 
 	x0 := 0
+
 	for i, v := range busTimes {
 		bigN := totProd / v
 		bigInt := big.NewInt(int64(bigN))
