@@ -11,24 +11,18 @@ import (
 	"github.com/bznein/AoC2020/pkg/timing"
 )
 
-func getMask1(s string) map[int]rune {
-	m := map[int]rune{}
+func getMasks(s string) (map[int]rune, map[int]rune) {
+	m1 := map[int]rune{}
+	m2 := map[int]rune{}
 	for i, v := range strings.Split(s, " = ")[1] {
 		if _, err := strconv.Atoi(string(v)); err == nil {
-			m[i] = v
+			m1[i] = v
 		}
-	}
-	return m
-}
-
-func getMask2(s string) map[int]rune {
-	m := map[int]rune{}
-	for i, v := range strings.Split(s, " = ")[1] {
 		if v != '0' {
-			m[i] = v
+			m2[i] = v
 		}
 	}
-	return m
+	return m1, m2
 }
 
 func getAllPossibleStrings(ss string) []string {
@@ -56,11 +50,11 @@ func Solve(inputF string) (int, int) {
 	var m1 map[int]rune
 	values2 := map[int]int64{}
 	var m2 map[int]rune
+
 	for i := 0; i < len(n); i++ {
 		if n[i][1] == 'a' {
 			//stupid, fast way to see when it is a mask
-			m1 = getMask1(n[i])
-			m2 = getMask2(n[i])
+			m1, m2 = getMasks(n[i])
 			continue
 		}
 		cell := 0
