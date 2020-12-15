@@ -1,13 +1,10 @@
 package Day15
 
 import (
-	"fmt"
-	"runtime"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/bznein/AoC2020/pkg/algorithm"
 	"github.com/bznein/AoC2020/pkg/timing"
 )
 
@@ -28,10 +25,9 @@ func Solve(inputF string) (int, int) {
 	}
 	nextNumberSpoken := 0
 
-	max := 0
 	for i := len(startingNumbers); i < 30000000-1; i++ {
 		last := lastTimeSpoken[nextNumberSpoken]
-		max = algorithm.Max(max, nextNumberSpoken)
+
 		lastTimeSpoken[nextNumberSpoken] = i
 		if last == -1 {
 			nextNumberSpoken = 0
@@ -44,6 +40,5 @@ func Solve(inputF string) (int, int) {
 	}
 
 	part2 = nextNumberSpoken
-	PrintMemUsage()
 	return part1, part2
 }
