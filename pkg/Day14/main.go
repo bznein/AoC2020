@@ -26,20 +26,18 @@ func getMasks(s string) (map[int]rune, map[int]rune) {
 }
 
 func getAllPossibleStrings(ss string) []string {
-	found := false
-	retVal := []string{}
+	idx := -1
 	for i, v := range ss {
 		if v == 'X' {
-			retVal = append(retVal, getAllPossibleStrings(s.ReplaceAtIndex(ss, '0', i))...)
-			retVal = append(retVal, getAllPossibleStrings(s.ReplaceAtIndex(ss, '1', i))...)
-			found = true
+			idx = i
 			break
 		}
 	}
-	if !found {
-		retVal = append(retVal, ss)
+	if idx == -1 {
+		return []string{ss}
 	}
-	return retVal
+
+	return append(getAllPossibleStrings(s.ReplaceAtIndex(ss, '0', idx)), getAllPossibleStrings(s.ReplaceAtIndex(ss, '1', idx))...)
 }
 
 func Solve(inputF string) (int, int) {
