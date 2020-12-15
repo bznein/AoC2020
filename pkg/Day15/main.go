@@ -14,25 +14,21 @@ func Solve(inputF string) (int, int) {
 
 	startingNumbers := strings.Split(inputF, ",")
 
-	//	lastTimeSpoken := map[int]int{}
 	lastTimeSpoken := make([]int, 30000000)
-	for i := range lastTimeSpoken {
-		lastTimeSpoken[i] = -1
-	}
 	for i, v := range startingNumbers {
 		val, _ := strconv.Atoi(v)
-		lastTimeSpoken[val] = i
+		lastTimeSpoken[val] = i + 1
 	}
 	nextNumberSpoken := 0
 
 	for i := len(startingNumbers); i < 30000000-1; i++ {
 		last := lastTimeSpoken[nextNumberSpoken]
 
-		lastTimeSpoken[nextNumberSpoken] = i
-		if last == -1 {
+		lastTimeSpoken[nextNumberSpoken] = i + 1
+		if last == 0 {
 			nextNumberSpoken = 0
 		} else {
-			nextNumberSpoken = i - last
+			nextNumberSpoken = i + 1 - last
 		}
 		if i == 2018 {
 			part1 = nextNumberSpoken
