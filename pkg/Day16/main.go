@@ -18,7 +18,7 @@ type ranges struct {
 	max2 int
 }
 
-func getAssignments(valid map[int]map[string]int, toFind int, alreadyFound map[string]bool, res map[int]string) map[int]string {
+func getAssignments(valid []map[string]int, toFind int, alreadyFound map[string]bool, res map[int]string) map[int]string {
 
 	// At each index, look for the list of fields that have count == totFind
 	for index, possibilities := range valid {
@@ -44,45 +44,56 @@ func getAssignments(valid map[int]map[string]int, toFind int, alreadyFound map[s
 	return res
 }
 
+func stringToRuleKeyVal(s string) (string, ranges) {
+	ruleSplit := strings.Split(s, ": ")
+	ruleKey := ruleSplit[0]
+	rangeSplit := strings.Split(ruleSplit[1], " or ")
+	range1 := strings.Split(rangeSplit[0], "-")
+	range2 := strings.Split(rangeSplit[1], "-")
+	range1min, _ := strconv.Atoi(range1[0])
+	range1max, _ := strconv.Atoi(range1[1])
+	range2min, _ := strconv.Atoi(range2[0])
+	range2max, _ := strconv.Atoi(range2[1])
+	return ruleKey, ranges{
+		min1: range1min,
+		max1: range1max,
+		min2: range2min,
+		max2: range2max,
+	}
+}
+
+func (r *rule) fill(s string) {
+	k, v := stringToRuleKeyVal(s)
+	(*r)[k] = v
+}
+
+func (v ranges) contains(val int) bool {
+	return val >= v.min1 && val <= v.max1 || val >= v.min2 && val <= v.max2
+}
+
 func Solve(inputF string) (int, int) {
 	defer timing.TimeTrack(time.Now())
 	part1, part2 := 0, 1
 	s := input.InputToStringSlice(inputF)
 
-	nearbyTickets := []string{}
 	rules := rule{}
 	nearby := false
+	validTickets := 0
 	myTicket := []int{}
+	var validPositions []map[string]int
 	your := false
 	for _, ss := range s {
-		if strings.Contains(ss, "nearby") {
+		if !nearby && strings.Contains(ss, "nearby") {
 			nearby = true
 			continue
-		}
-		if strings.Contains(ss, "your") {
+		} else if !your && strings.Contains(ss, "your") {
 			your = true
 			continue
-		}
-		if ss == "" {
+		} else if ss == "" {
 			continue
 		}
-		if !(your || false) {
-			ruleSplit := strings.Split(ss, ": ")
-			ruleKey := ruleSplit[0]
-			rangeSplit := strings.Split(ruleSplit[1], " or ")
-			range1 := strings.Split(rangeSplit[0], "-")
-			range2 := strings.Split(rangeSplit[1], "-")
-			range1min, _ := strconv.Atoi(range1[0])
-			range1max, _ := strconv.Atoi(range1[1])
-			range2min, _ := strconv.Atoi(range2[0])
-			range2max, _ := strconv.Atoi(range2[1])
-			rules[ruleKey] = ranges{
-				min1: range1min,
-				max1: range1max,
-				min2: range2min,
-				max2: range2max,
-			}
-
+		if !(your || nearby) {
+			rules.fill(ss)
 		}
 		if your {
 			valsS := strings.Split(ss, ",")
@@ -92,51 +103,40 @@ func Solve(inputF string) (int, int) {
 			}
 		}
 		if nearby {
-			nearbyTickets = append(nearbyTickets, ss)
-		}
-	}
-
-	validTickets := []string{}
-	for _, ticket := range nearbyTickets {
-		valid := true
-		vals := strings.Split(ticket, ",")
-	Vals:
-		for _, vv := range vals {
-			val, _ := strconv.Atoi(vv)
-			for _, v := range rules {
-				if (val >= v.min1 && val <= v.max1) || (val >= v.min2 && val <= v.max2) {
-					continue Vals
+			valid := true
+			vals := strings.Split(ss, ",")
+			if validPositions == nil {
+				validPositions = make([]map[string]int, len(vals))
+				for i := range validPositions {
+					validPositions[i] = map[string]int{}
 				}
 			}
-			part1 += val
-			valid = false
-		}
-		if valid {
-			validTickets = append(validTickets, ticket)
-		}
-	}
-
-	validPositions := map[int]map[string]int{}
-
-	for _, ticket := range validTickets {
-		vals := strings.Split(ticket, ",")
-		for i, vv := range vals {
-			val, _ := strconv.Atoi(vv)
-			for k, v := range rules {
-				if (val >= v.min1 && val <= v.max1) || (val >= v.min2 && val <= v.max2) {
-					if _, ok := validPositions[i]; !ok {
-						validPositions[i] = map[string]int{}
+		Vals:
+			for _, vv := range vals {
+				val, _ := strconv.Atoi(vv)
+				for _, v := range rules {
+					if v.contains(val) {
+						continue Vals
 					}
-					if _, ok := validPositions[i][k]; !ok {
-						validPositions[i][k] = 0
+				}
+				part1 += val
+				valid = false
+			}
+			if valid {
+				validTickets++
+				for i, vv := range vals {
+					val, _ := strconv.Atoi(vv)
+					for k, v := range rules {
+						if v.contains(val) {
+							validPositions[i][k]++
+						}
 					}
-					validPositions[i][k]++
 				}
 			}
 		}
 	}
 
-	assignments := getAssignments(validPositions, len(validTickets), map[string]bool{}, map[int]string{})
+	assignments := getAssignments(validPositions, validTickets, map[string]bool{}, map[int]string{})
 
 	for i, v := range myTicket {
 		if strings.Contains(assignments[i], "departure") {
