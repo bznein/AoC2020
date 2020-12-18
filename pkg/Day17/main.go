@@ -9,9 +9,8 @@ import (
 )
 
 const (
-	active   = '#'
-	inactive = '.'
-	//TODO this can be computed!
+	active    = '#'
+	inactive  = '.'
 	smallSize = 7
 	size      = 12
 )
