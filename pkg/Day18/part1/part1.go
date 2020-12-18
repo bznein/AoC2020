@@ -10,13 +10,10 @@ import __yyfmt__ "fmt"
 
 import (
 	"fmt"
-	"time"
 	"unicode"
-
-	"github.com/bznein/AoC2020/pkg/timing"
 )
 
-//line parser_part1.y:16
+//line parser_part1.y:13
 type CalcSymType struct {
 	yys int
 	val int
@@ -42,7 +39,7 @@ const CalcEofCode = 1
 const CalcErrCode = 2
 const CalcInitialStackSize = 16
 
-//line parser_part1.y:51
+//line parser_part1.y:48
 
 type CalcLex struct {
 	s   string
@@ -71,7 +68,6 @@ func (l *CalcLex) Error(s string) {
 }
 
 func SolvePart1(s []string, c chan int) {
-	defer timing.TimeTrack(time.Now())
 	part1 := 0
 
 	for _, ss := range s {
@@ -479,31 +475,31 @@ Calcdefault:
 
 	case 3:
 		CalcDollar = CalcS[Calcpt-1 : Calcpt+1]
-//line parser_part1.y:32
+//line parser_part1.y:29
 		{
 			return CalcDollar[1].val
 		}
 	case 4:
 		CalcDollar = CalcS[Calcpt-3 : Calcpt+1]
-//line parser_part1.y:38
+//line parser_part1.y:35
 		{
 			CalcVAL.val = CalcDollar[2].val
 		}
 	case 5:
 		CalcDollar = CalcS[Calcpt-3 : Calcpt+1]
-//line parser_part1.y:40
+//line parser_part1.y:37
 		{
 			CalcVAL.val = CalcDollar[1].val + CalcDollar[3].val
 		}
 	case 6:
 		CalcDollar = CalcS[Calcpt-3 : Calcpt+1]
-//line parser_part1.y:42
+//line parser_part1.y:39
 		{
 			CalcVAL.val = CalcDollar[1].val * CalcDollar[3].val
 		}
 	case 9:
 		CalcDollar = CalcS[Calcpt-2 : Calcpt+1]
-//line parser_part1.y:48
+//line parser_part1.y:45
 		{
 			CalcVAL.val = 10*CalcDollar[1].val + CalcDollar[2].val
 		}

@@ -5,9 +5,6 @@ package Day18p1
 import (
 	"fmt"
 	"unicode"
-  "time"
-
-	"github.com/bznein/AoC2020/pkg/timing"
 )
 
 
@@ -79,7 +76,6 @@ func (l *CalcLex) Error(s string) {
 
 
 func SolvePart1(s []string, c chan int) {
-	defer timing.TimeTrack(time.Now())
     part1 := 0
 
     for _, ss := range s {
