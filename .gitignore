@@ -21,3 +21,4 @@ inputs/
 /cmd/solver
 /cmd/cmd
 /cmd/.DS_Store
+/pkg/Day18/*.output

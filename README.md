@@ -92,5 +92,7 @@ Part 1: 1424, Part 2:63447
 
 This will report the execution times of all the file reading and then of every single day (note: it automatically executes up to day25, even if only the stub is present, but the impact on execution time is negligible, less than `50ns` for each day)
 
+[Note about Day18](./pkg/Day18/README.md)
+
 #### Inputs
 The program expects input files to be in an `/inputs` folder, each day named as `X.txt` (e.g. `1.txt`, `15.txt`, please note the absence of a leading zero here)

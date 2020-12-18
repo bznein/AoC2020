@@ -1,0 +1,140 @@
+
+state 0
+	$accept: .list $end 
+	list: .    (1)
+
+	.  reduce 1 (src line 27)
+
+	list  goto 1
+
+state 1
+	$accept:  list.$end 
+	list:  list.stat '\n' 
+
+	$end  accept
+	DIGIT  shift 6
+	'('  shift 4
+	.  error
+
+	expr  goto 3
+	number  goto 5
+	stat  goto 2
+
+state 2
+	list:  list stat.'\n' 
+
+	'\n'  shift 7
+	.  error
+
+
+state 3
+	stat:  expr.    (3)
+	expr:  expr.'+' expr 
+	expr:  expr.'*' expr 
+
+	'*'  shift 9
+	'+'  shift 8
+	.  reduce 3 (src line 31)
+
+
+state 4
+	expr:  '('.expr ')' 
+
+	DIGIT  shift 6
+	'('  shift 4
+	.  error
+
+	expr  goto 10
+	number  goto 5
+
+state 5
+	expr:  number.    (7)
+	number:  number.DIGIT 
+
+	DIGIT  shift 11
+	.  reduce 7 (src line 43)
+
+
+state 6
+	number:  DIGIT.    (8)
+
+	.  reduce 8 (src line 46)
+
+
+state 7
+	list:  list stat '\n'.    (2)
+
+	.  reduce 2 (src line 28)
+
+
+state 8
+	expr:  expr '+'.expr 
+
+	DIGIT  shift 6
+	'('  shift 4
+	.  error
+
+	expr  goto 12
+	number  goto 5
+
+state 9
+	expr:  expr '*'.expr 
+
+	DIGIT  shift 6
+	'('  shift 4
+	.  error
+
+	expr  goto 13
+	number  goto 5
+
+state 10
+	expr:  '(' expr.')' 
+	expr:  expr.'+' expr 
+	expr:  expr.'*' expr 
+
+	'*'  shift 9
+	'+'  shift 8
+	')'  shift 14
+	.  error
+
+
+state 11
+	number:  number DIGIT.    (9)
+
+	.  reduce 9 (src line 47)
+
+
+state 12
+	expr:  expr.'+' expr 
+	expr:  expr '+' expr.    (5)
+	expr:  expr.'*' expr 
+
+	.  reduce 5 (src line 39)
+
+
+state 13
+	expr:  expr.'+' expr 
+	expr:  expr.'*' expr 
+	expr:  expr '*' expr.    (6)
+
+	.  reduce 6 (src line 41)
+
+
+state 14
+	expr:  '(' expr ')'.    (4)
+
+	.  reduce 4 (src line 37)
+
+
+9 terminals, 5 nonterminals
+10 grammar rules, 15/8000 states
+0 shift/reduce, 0 reduce/reduce conflicts reported
+54 working sets used
+memory: parser 10/120000
+7 extra closures
+15 shift entries, 1 exceptions
+7 goto entries
+3 entries saved by goto default
+Optimizer space used: output 16/120000
+16 table entries, 0 zero
+maximum spread: 9, maximum offset: 9
