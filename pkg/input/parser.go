@@ -36,3 +36,11 @@ func InputToIntSlice(input string) []int {
 func InputToStringSlice(input string) []string {
 	return strings.Split(input, "\n")
 }
+
+func AsInt(s string) int {
+	i, err := strconv.Atoi(s)
+	if err != nil {
+		panic("Called AsInt with non-int string")
+	}
+	return i
+}
