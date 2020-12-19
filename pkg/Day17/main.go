@@ -1,7 +1,6 @@
 package Day17
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/bznein/AoC2020/pkg/input"
@@ -13,153 +12,85 @@ const (
 	inactive  = '.'
 	smallSize = 7
 	size      = 12
+	steps     = 6
 )
 
-//TODO move in 3D package
-type threeDGrid map[int]map[int]map[int]rune
-type fourDGrid map[int]threeDGrid
-
-func (t threeDGrid) print() {
-	for z := -smallSize; z <= smallSize; z++ {
-		fmt.Printf("z=%d\n", z)
-		for i := -size; i <= size; i++ {
-			for j := -size; j <= size; j++ {
-				fmt.Printf("%s", string(t[z][i][j]))
-			}
-			fmt.Println("")
-		}
-	}
+type threeDcoords struct {
+	x int
+	y int
+	z int
 }
 
-func (t fourDGrid) print() {
-	for w := -smallSize; w <= smallSize; w++ {
-		fmt.Printf("W=%d", w)
-		t[w].print()
-		fmt.Println("")
-	}
+type fourDcoords struct {
+	w int
+	threeDcoords
 }
 
-func (t fourDGrid) get80Neighbours(w, z, i, j int) int {
-	tot := 0
+type threeDGrid map[threeDcoords]rune
+
+type fourDGrid map[fourDcoords]rune
+
+func getNeighbours(t3d threeDGrid, t4d fourDGrid, startPos4d fourDcoords) (int, int) {
+	tot3d := 0
+	tot4d := 0
+	startPos3d := startPos4d.threeDcoords
+	w := startPos4d.w
+	z := startPos3d.x
+	j := startPos3d.z
+	i := startPos3d.y
 	for ww := w - 1; ww <= w+1; ww++ {
 		for zz := z - 1; zz <= z+1; zz++ {
 			for jj := j - 1; jj <= j+1; jj++ {
 				for ii := i - 1; ii <= i+1; ii++ {
-					if t[ww][zz][ii][jj] == active && !(ww == w && ii == i && jj == j && zz == z) {
-						tot++
+					pos3d := threeDcoords{zz, ii, jj}
+					pos4d := fourDcoords{ww, pos3d}
+					if w == ww && startPos3d != pos3d && t3d[pos3d] == active {
+						tot3d++
+					}
+					if startPos4d != pos4d && t4d[pos4d] == active {
+						tot4d++
 					}
 				}
 			}
 		}
 	}
-	return tot
+	return tot3d, tot4d
 }
 
-func (t threeDGrid) get26Neighbours(z, i, j int) int {
-	tot := 0
-	for zz := z - 1; zz <= z+1; zz++ {
-		for jj := j - 1; jj <= j+1; jj++ {
-			for ii := i - 1; ii <= i+1; ii++ {
-				if t[zz][ii][jj] == active && !(ii == i && jj == j && zz == z) {
-					tot++
-				}
-			}
-		}
-	}
-	return tot
-}
-
-func (t threeDGrid) totalActive() int {
-	tot := 0
-	for x := -size; x <= size; x++ {
-		for y := -size; y <= size; y++ {
-			for z := -size; z <= size; z++ {
-				if t[x][y][z] == active {
-					tot++
-				}
-			}
-		}
-	}
-	return tot
-}
-
-func (source threeDGrid) copy() threeDGrid {
-	t := threeDGrid{}
-	for x := -size; x <= size; x++ {
-		if _, ok := t[x]; !ok {
-
-			t[x] = map[int]map[int]rune{}
-		}
-		for y := -size; y <= size; y++ {
-			if _, ok := t[x][y]; !ok {
-				t[x][y] = map[int]rune{}
-			}
-			for z := -size; z <= size; z++ {
-				t[x][y][z] = source[x][y][z]
-			}
-		}
-	}
-	return t
-}
-
-func (source fourDGrid) copy() fourDGrid {
-	t := fourDGrid{}
-	for w := -smallSize; w <= smallSize; w++ {
-		t[w] = source[w].copy()
-	}
-	return t
-}
-
-func (source fourDGrid) totalActive() int {
-	tot := 0
-	for w := -smallSize; w <= smallSize; w++ {
-		tot += source[w].totalActive()
-	}
-	return tot
-}
-
-func (t threeDGrid) oneStep() threeDGrid {
-	copyMap := t.copy()
-	for z := -size + 1; z < size; z++ {
-		for i := -size + 1; i < size; i++ {
-			for j := -size + 1; j < size; j++ {
-				nActive := t.get26Neighbours(z, i, j)
-				if t[z][i][j] == active {
-					if nActive != 2 && nActive != 3 {
-						copyMap[z][i][j] = inactive
-					}
-				} else {
-					if nActive == 3 {
-						copyMap[z][i][j] = active
-					}
-				}
-			}
-		}
-	}
-	return copyMap
-}
-
-func (t fourDGrid) oneStep() fourDGrid {
-	copyMap := t.copy()
+func oneStep(t1 threeDGrid, t2 fourDGrid) (threeDGrid, fourDGrid, int, int) {
+	copyMap1 := threeDGrid{}
+	copyMap2 := fourDGrid{}
+	totActive3d := 0
+	totActive4d := 0
 	for w := -smallSize + 1; w < smallSize; w++ {
-		for z := -size + 1; z < size; z++ {
+		for z := -smallSize + 1; z < smallSize; z++ {
 			for i := -size + 1; i < size; i++ {
 				for j := -size + 1; j < size; j++ {
-					nActive := t.get80Neighbours(w, z, i, j)
-					if t[w][z][i][j] == active {
-						if nActive != 2 && nActive != 3 {
-							copyMap[w][z][i][j] = inactive
+					pos3d := threeDcoords{z, i, j}
+					pos4d := fourDcoords{w, pos3d}
+					nActive3d, nActive4d := getNeighbours(t1, t2, pos4d)
+					if w == 0 {
+						isActive := t1[pos3d] == active
+						if (nActive3d == 3 && !isActive) || ((nActive3d == 3 || nActive3d == 2) && isActive) {
+							copyMap1[pos3d] = active
+							totActive3d++
+						} else {
+							copyMap1[pos3d] = inactive
 						}
+					}
+
+					isActive := t2[pos4d] == active
+					if (nActive4d == 3 && !isActive) || ((nActive4d == 3 || nActive4d == 2) && isActive) {
+						copyMap2[pos4d] = active
+						totActive4d++
 					} else {
-						if nActive == 3 {
-							copyMap[w][z][i][j] = active
-						}
+						copyMap2[pos4d] = inactive
 					}
 				}
 			}
 		}
 	}
-	return copyMap
+	return copyMap1, copyMap2, totActive3d, totActive4d
 }
 
 func Solve(inputF string) (int, int) {
@@ -171,26 +102,13 @@ func Solve(inputF string) (int, int) {
 	t2 := fourDGrid{}
 
 	for w := -smallSize; w <= smallSize; w++ {
-		if _, ok := t2[w]; !ok {
-			t2[w] = threeDGrid{}
-		}
-		for x := -size; x <= size; x++ {
-			if _, ok := t[x]; !ok {
-				t[x] = map[int]map[int]rune{}
-			}
-			if _, ok := t2[w][x]; !ok {
-				t2[w][x] = map[int]map[int]rune{}
-			}
+		for x := -smallSize; x <= smallSize; x++ {
 			for y := -size; y <= size; y++ {
-				if _, ok := t[x][y]; !ok {
-					t[x][y] = map[int]rune{}
-				}
-				if _, ok := t2[w][x][y]; !ok {
-					t2[w][x][y] = map[int]rune{}
-				}
 				for z := -size; z <= size; z++ {
-					t[x][y][z] = inactive
-					t2[w][x][y][z] = inactive
+					if w == 0 {
+						t[threeDcoords{x, y, z}] = inactive
+					}
+					t2[fourDcoords{w, threeDcoords{x, y, z}}] = inactive
 				}
 			}
 
@@ -200,16 +118,17 @@ func Solve(inputF string) (int, int) {
 	for i := range n {
 		for j := range n[i] {
 			if n[i][j] == active {
-				t[0][i][j] = rune(n[i][j])
-				t2[0][0][i][j] = rune(n[i][j])
+				t[threeDcoords{0, i, j}] = rune(n[i][j])
+				t2[fourDcoords{0, threeDcoords{0, i, j}}] = rune(n[i][j])
 			}
 		}
 	}
 
-	for i := 0; i < 6; i++ {
-		t = t.oneStep()
-		t2 = t2.oneStep()
+	part1 := 0
+	part2 := 0
+	for i := 0; i < steps; i++ {
+		t, t2, part1, part2 = oneStep(t, t2)
 	}
 
-	return t.totalActive(), t2.totalActive()
+	return part1, part2
 }
