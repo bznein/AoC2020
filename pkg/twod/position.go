@@ -2,7 +2,9 @@ package twod
 
 import (
 	"fmt"
+	"github.com/agrison/go-commons-lang/stringUtils"
 	"math"
+	"strings"
 )
 
 type Position struct {
@@ -30,6 +32,49 @@ func (g Grid) EntryAt(i, j int) (rune, error) {
 		return '0', fmt.Errorf("Requested invalid indices")
 	}
 	return rune(g[i][j]), nil
+}
+
+func (g Grid) Print() {
+	for _, row := range g {
+		for _, val := range row {
+			fmt.Printf("%c", val)
+		}
+		fmt.Println()
+	}
+}
+
+func (g Grid) FirstRow() string {
+	return g.GetRow(0)
+}
+
+func (g Grid) FirstCol() string {
+	return g.GetColumn(0)
+}
+
+func (g Grid) LastRow() string {
+	return g.GetRow(len(g) - 1)
+}
+
+func (g Grid) LastCol() string {
+	return g.GetColumn(len(g[0]) - 1)
+}
+
+func (g Grid) GetRow(i int) string {
+	if i < 0 || i >= len(g) {
+		return ""
+	}
+	return g[i]
+}
+
+func (g Grid) GetColumn(j int) string {
+	if j < 0 || j >= len(g[0]) {
+		return ""
+	}
+	var sb strings.Builder
+	for i := range g {
+		sb.WriteRune(rune(g[i][j]))
+	}
+	return sb.String()
 }
 
 func (g Grid) IsEntry(i int, j int, c rune) bool {
@@ -87,4 +132,46 @@ func (p *Position) SnapRotate(clockwise bool, degrees int) {
 		p.I = -oldJ
 	case 4: //Nothing to do here
 	}
+}
+
+func (g Grid) Rotate(steps int) Grid {
+	if steps == 0 || steps == 4 {
+		return g
+	}
+	res := make(Grid, len(g))
+	if steps == 1 {
+		for i := 0; i < len(g); i++ {
+			var sb strings.Builder
+			for j := 0; j < len(g[0]); j++ {
+				sb.WriteRune(rune(g[len(g)-j-1][i]))
+			}
+			res[i] = sb.String()
+		}
+	}
+	if steps == 2 {
+		for i, s := range g {
+			res[len(g)-1-i] = stringUtils.Reverse(s)
+		}
+	}
+	if steps == 3 {
+		res = g.Rotate(2)
+		res = res.Rotate(1)
+	}
+	return res
+}
+
+func (g Grid) FlipX() Grid {
+	res := make(Grid, len(g))
+	for i, s := range g {
+		res[i] = stringUtils.Reverse(s)
+	}
+	return res
+}
+
+func (g Grid) FlipY() Grid {
+	res := make(Grid, len(g))
+	for i, s := range g {
+		res[len(g)-1-i] = s
+	}
+	return res
 }

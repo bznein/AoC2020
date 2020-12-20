@@ -1,5 +1,7 @@
 github.com/Maldris/mathparse v0.0.0-20170508133428-f0d009a7a773 h1:wlDWiY/VYdEGdBQmLBqNHyqSC+Kbdk3tHMX0BWKRjDg=
 github.com/Maldris/mathparse v0.0.0-20170508133428-f0d009a7a773/go.mod h1:3OrYs+fU1ZL6zdhMSS+nSOlv4BV/MYPbjtmT9v3xCWg=
+github.com/agrison/go-commons-lang v0.0.0-20200208220349-58e9fcb95174 h1:ExNQbrN2sYVsz5vDpV0wfFAu2gGpcnVewOXY9qpIjA8=
+github.com/agrison/go-commons-lang v0.0.0-20200208220349-58e9fcb95174/go.mod h1:u+Zwm0OKtJAGx+DXcmp2NNwZ0GKtV80ipbF/uhKhQdw=
 github.com/bznein/Aoc2020 v0.0.0-20201203084219-9786bf57e8ac h1:1mcZx1f1bCtM/rHn3QWEv8CaANjUX7R23sMxfRW1RCU=
 github.com/golang-collections/collections v0.0.0-20130729185459-604e922904d3 h1:zN2lZNZRflqFyxVaTIU61KNKQ9C0055u9CAfpmqUvo4=
 github.com/golang-collections/collections v0.0.0-20130729185459-604e922904d3/go.mod h1:nPpo7qLxd6XL3hWJG/O60sR8ZKfMCiIoNap5GvD12KU=

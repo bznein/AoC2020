@@ -1,8 +1,10 @@
 # github.com/Maldris/mathparse v0.0.0-20170508133428-f0d009a7a773
 ## explicit
+# github.com/agrison/go-commons-lang v0.0.0-20200208220349-58e9fcb95174
+## explicit
+github.com/agrison/go-commons-lang/stringUtils
 # github.com/golang-collections/collections v0.0.0-20130729185459-604e922904d3
 ## explicit
-github.com/golang-collections/collections/stack
 # github.com/mattn/go-runewidth v0.0.9
 ## explicit
 github.com/mattn/go-runewidth
