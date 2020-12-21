@@ -72,6 +72,15 @@ func timeSolves() {
 	Day25.Solve(inputs[24])
 }
 
+func solveIntStringOutput(day int) (int, string) {
+
+	inputF := input.ReadInput(fmt.Sprintf("../inputs/%d.txt", day))
+	switch day {
+	case 21:
+		return Day21.Solve(inputF)
+	}
+	return -1, ""
+}
 func solve(day int) (int, int) {
 
 	inputF := input.ReadInput(fmt.Sprintf("../inputs/%d.txt", day))
@@ -117,8 +126,6 @@ func solve(day int) (int, int) {
 		return Day19.Solve(inputF)
 	case 20:
 		return Day20.Solve(inputF)
-	case 21:
-		return Day21.Solve(inputF)
 	case 22:
 		return Day22.Solve(inputF)
 	case 23:
@@ -138,6 +145,11 @@ func main() {
 		timeSolves()
 		return
 	}
-	part1, part2 := solve(input.Day)
-	fmt.Printf("Part 1: %d, Part 2:%d\n", part1, part2)
+	if input.Day == 21 {
+		part1, part2 := solveIntStringOutput(21)
+		fmt.Printf("Part 1: %d, Part 2:%s\n", part1, part2)
+	} else {
+		part1, part2 := solve(input.Day)
+		fmt.Printf("Part 1: %d, Part 2:%d\n", part1, part2)
+	}
 }

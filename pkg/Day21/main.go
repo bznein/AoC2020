@@ -1,7 +1,6 @@
 package Day21
 
 import (
-	"fmt"
 	"sort"
 	"strings"
 	"time"
@@ -43,9 +42,9 @@ func fillAllergenes(maybe map[string][]string, temp map[string]string) map[strin
 	return temp
 }
 
-func Solve(inputF string) (int, int) {
+func Solve(inputF string) (int, string) {
 	defer timing.TimeTrack(time.Now())
-	part1, part2 := 0, -1
+	part1 := 0
 
 	allIngredients := map[string]bool{}
 	mayBeContainedIn := map[string][]string{}
@@ -78,7 +77,7 @@ func Solve(inputF string) (int, int) {
 
 	notInAny := []string{}
 Search:
-	for v, _ := range allIngredients {
+	for v := range allIngredients {
 
 		for _, all := range mayBeContainedIn {
 			for _, ingredient := range all {
@@ -103,14 +102,12 @@ Search:
 	finalAllergenes := fillAllergenes(mayBeContainedIn, map[string]string{})
 
 	finalIng := []string{}
-	for v, _ := range finalAllergenes {
+	for v := range finalAllergenes {
 		finalIng = append(finalIng, v)
 	}
 	sort.Slice(finalIng, func(i, j int) bool {
 		return finalAllergenes[finalIng[i]] < finalAllergenes[finalIng[j]]
 	})
 
-	fmt.Printf("TODO remove me and change interface Final: %v\n", strings.Join(finalIng, ","))
-
-	return part1, part2
+	return part1, strings.Join(finalIng, ",")
 }
