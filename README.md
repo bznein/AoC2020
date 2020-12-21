@@ -8,6 +8,7 @@ The repository is structured as follwos:
   - One package, named Day##, for the ## day of the month (e.g. [Day01](./pkg/Day01))
   - Every package presents the same interface: one exported method `func Solve(input string) (int,int)` which provides the answers for part 1 and part 2
     - (note, Day08 returns, at the moment, `(int64,int64)`, but that will change as soon as I care)
+    - (note, Day21 has return type (int,string), given the nature of the puzzle)
   - Auxiliary packages for visualization purposes and to gather common functionalities (or those that I believe will become shared in the future)
 - [cmd](./cmd) directory:
   - [solver.go](./cmd/solver.go) is the main entrance point, it can be compiled into an executable that can either execute a specific day, or present the execution time of all days
