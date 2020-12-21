@@ -24,7 +24,7 @@ func remove(s []string, i int) []string {
 }
 
 func fillAllergenes(maybe map[string][]string, temp map[string]string) map[string]string {
-	if len(maybe) == 0 {
+	if len(maybe) == 1 {
 		return temp
 	}
 	for k, v := range maybe {
@@ -59,14 +59,11 @@ func Solve(inputF string) (int, string) {
 		allergenes := strings.Split(ingSplit[1][9:l-1], ", ")
 		for _, all := range allergenes {
 			if _, ok := mayBeContainedIn[all]; !ok {
-				for _, ing := range ingredients {
-					mayBeContainedIn[all] = append(mayBeContainedIn[all], ing)
-				}
+				mayBeContainedIn[all] = ingredients
 			} else {
-				newSlice := []string{}
+				newSlice := make([]string, 0, len(ingredients))
 				for _, ing := range mayBeContainedIn[all] {
-					if idx := contains(ingredients, ing); idx == -1 {
-					} else {
+					if idx := contains(ingredients, ing); idx != -1 {
 						newSlice = append(newSlice, ing)
 					}
 				}
