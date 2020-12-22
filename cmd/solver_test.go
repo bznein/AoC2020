@@ -31,6 +31,7 @@ var solveTests = []struct {
 	{19, 222, 339, ""},
 	{20, 18482479935793, 2118, ""},
 	{21, 2412, -1, "mfp,mgvfmvp,nhdjth,hcdchl,dvkbjh,dcvrf,bcjz,mhnrqp"},
+	{22, 34255, 33369, ""},
 }
 
 func TestSolver(t *testing.T) {

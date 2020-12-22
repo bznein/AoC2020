@@ -24,7 +24,7 @@ func remove(s []string, i int) []string {
 }
 
 func fillAllergenes(maybe map[string][]string, temp map[string]string) map[string]string {
-	if len(maybe) == 1 {
+	if len(maybe) == 0 {
 		return temp
 	}
 	for k, v := range maybe {
