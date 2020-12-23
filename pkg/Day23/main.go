@@ -44,11 +44,12 @@ func playGame(inputF string, elems int, moves int) int {
 		cups = cups.Next()
 	}
 
+	p1 := positions[1]
 	if elems > len(inputF) {
-		return positions[1].Next().Value.(int) * positions[1].Move(2).Value.(int)
+		return p1.Next().Value.(int) * p1.Move(2).Value.(int)
 	}
 	res := 0
-	positions[1].Unlink(len(inputF) - 1).Do(func(p interface{}) {
+	p1.Unlink(len(inputF) - 1).Do(func(p interface{}) {
 		res = res*10 + p.(int)
 	})
 	return res
