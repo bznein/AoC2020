@@ -32,11 +32,12 @@ var solveTests = []struct {
 	{20, 18482479935793, 2118, ""},
 	{21, 2412, -1, "mfp,mgvfmvp,nhdjth,hcdchl,dvkbjh,dcvrf,bcjz,mhnrqp"},
 	{22, 34255, 33369, ""},
+	{23, 43896725, 2911418906, ""},
 }
 
 func TestSolver(t *testing.T) {
 	for _, test := range solveTests {
-		if test.day != 21 {
+		if test.part2s == "" {
 			p1, p2 := solve(test.day)
 			if p1 != test.part1 || p2 != test.part2 {
 				t.Errorf("Day %d, expected (%d,%d), got (%d,%d)", test.day, test.part1, test.part2, p1, p2)

@@ -69,8 +69,6 @@ func playRound(p1, p2 playerDeck) (playerDeck, int) {
 
 	p1C := p1[0]
 	p2C := p2[0]
-	//fmt.Printf("Player 1 plays %d\n", p1C)
-	//fmt.Printf("Player 2 plays %d\n", p2C)
 
 	remainingP1 := len(p1) - 1
 	remainingP2 := len(p2) - 1
@@ -84,13 +82,11 @@ func playRound(p1, p2 playerDeck) (playerDeck, int) {
 		copy(p2Copy, p2[1:])
 		_, winnerDeck = playGame2(p1Copy, p2Copy)
 
-		round = 0
 	} else if p1C > p2C {
 		winnerDeck = 1
 	} else {
 		winnerDeck = 2
 	}
-	//fmt.Printf("Player %d wins round %d of game %d!\n", winnerDeck, round, game)
 	if winnerDeck == 1 {
 		p2 = p2[1:]
 		p1 = append(p1[1:], p1C, p2C)
@@ -107,10 +103,8 @@ func playGame1(p1, p2 playerDeck) playerDeck {
 }
 
 func playGame2(p1, p2 playerDeck) (playerDeck, int) {
-	round = 0
 	game++
 	gameToStatuses[game] = map[gameStatus]bool{}
-	//fmt.Printf("=== GAME %d ===\n", game)
 	p, i := playRound(p1, p2)
 	game--
 	return p, i
@@ -151,8 +145,6 @@ func Solve(inputF string) (int, int) {
 		card, _ := strconv.Atoi(ss)
 		players[player] = append(players[player], card)
 	}
-
-	//fmt.Printf("Decks: %v\n", players)
 
 	c1 := make(chan int)
 	c2 := make(chan int)
