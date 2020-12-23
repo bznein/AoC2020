@@ -14,8 +14,7 @@ func newDest(dest int, elems int) int {
 
 func playGame(inputF string, elems int, moves int) int {
 	cups := ring.New(elems)
-	positions := map[int]*ring.Ring{}
-
+	positions := make([]*ring.Ring, elems+1)
 	for i := 1; i <= elems; i++ {
 		if i <= len(inputF) {
 			cups.Value = int(inputF[i-1] - '0')
