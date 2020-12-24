@@ -33,6 +33,7 @@ var solveTests = []struct {
 	{21, 2412, -1, "mfp,mgvfmvp,nhdjth,hcdchl,dvkbjh,dcvrf,bcjz,mhnrqp"},
 	{22, 34255, 33369, ""},
 	{23, 43896725, 2911418906, ""},
+	{24, 287, 3636, ""},
 }
 
 func TestSolver(t *testing.T) {

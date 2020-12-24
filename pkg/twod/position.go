@@ -2,9 +2,10 @@ package twod
 
 import (
 	"fmt"
-	"github.com/agrison/go-commons-lang/stringUtils"
 	"math"
 	"strings"
+
+	"github.com/agrison/go-commons-lang/stringUtils"
 )
 
 type Position struct {
@@ -132,6 +133,67 @@ func (p *Position) SnapRotate(clockwise bool, degrees int) {
 		p.I = -oldJ
 	case 4: //Nothing to do here
 	}
+}
+
+func (p *Position) MoveNorth() {
+	p.I--
+}
+
+func (p *Position) MoveSouth() {
+	p.I++
+}
+func (p *Position) MoveEast() {
+	p.J++
+}
+func (p *Position) MoveWest() {
+	p.J--
+}
+
+func (p *Position) MoveSouthWest() {
+	p.I--
+}
+
+func (p *Position) MoveSouhtEast() {
+	p.J++
+	p.I--
+}
+func (p *Position) MoveNorthWest() {
+	p.J--
+	p.I++
+}
+func (p *Position) MoveNorthEast() {
+	p.I++
+}
+
+func (p Position) East() Position {
+	p.J++
+	return p
+}
+func (p Position) West() Position {
+	p.J--
+	return p
+}
+
+func (p Position) SouthWest() Position {
+	p.I--
+	return p
+}
+
+func (p Position) SouthEast() Position {
+	p.J++
+	p.I--
+	return p
+}
+
+func (p Position) NorthWest() Position {
+	p.J--
+	p.I++
+	return p
+}
+
+func (p Position) NorthEast() Position {
+	p.I++
+	return p
 }
 
 func (g Grid) Rotate(steps int) Grid {
