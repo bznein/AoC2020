@@ -13,46 +13,54 @@ const (
 	tileSize = 66
 )
 
-func day(tilesIn map[twod.Position]bool) (map[twod.Position]bool, int) {
-	tilesOut := map[twod.Position]bool{}
+func day(tilesIn [][]bool) ([][]bool, int) {
+	tilesOut := make([][]bool, tileSize*2+2)
+	for i := range tilesOut {
+		tilesOut[i] = make([]bool, tileSize*2+2)
+	}
 	blackTiles := 0
-	for i := -tileSize; i <= tileSize; i++ {
-		for j := -tileSize; j <= tileSize; j++ {
-			k := twod.Position{I: i, J: j}
-			v := tilesIn[k]
+	for i := -tileSize + 1; i <= tileSize; i++ {
+		for j := -tileSize + 1; j <= tileSize; j++ {
+			k := twod.Position{I: i + tileSize, J: j + tileSize}
 			adjacentBlack := 0
-			if val, ok := tilesIn[k.East()]; ok && val {
+			east := k.East()
+			west := k.West()
+			southWest := k.SouthWest()
+			southEast := k.SouthEast()
+			northEast := k.NorthEast()
+			northWest := k.NorthWest()
+			if tilesIn[east.I][east.J] {
 				adjacentBlack++
 			}
-			if val, ok := tilesIn[k.West()]; ok && val {
+			if tilesIn[west.I][west.J] {
 				adjacentBlack++
 			}
-			if val, ok := tilesIn[k.SouthWest()]; ok && val {
+			if tilesIn[southWest.I][southWest.J] {
 				adjacentBlack++
 			}
-			if val, ok := tilesIn[k.SouthEast()]; ok && val {
+			if tilesIn[southEast.I][southEast.J] {
 				adjacentBlack++
 			}
-			if val, ok := tilesIn[k.NorthEast()]; ok && val {
+			if tilesIn[northEast.I][northEast.J] {
 				adjacentBlack++
 			}
-			if val, ok := tilesIn[k.NorthWest()]; ok && val {
+			if tilesIn[northWest.I][northWest.J] {
 				adjacentBlack++
 			}
 
-			if v {
+			if tilesIn[k.I][k.J] {
 				if adjacentBlack == 0 || adjacentBlack > 2 {
-					tilesOut[k] = false
+					tilesOut[k.I][k.J] = false
 				} else {
-					tilesOut[k] = true
+					tilesOut[k.I][k.J] = true
 					blackTiles++
 				}
 			} else {
 				if adjacentBlack == 2 {
-					tilesOut[k] = true
+					tilesOut[k.I][k.J] = true
 					blackTiles++
 				} else {
-					tilesOut[k] = false
+					tilesOut[k.I][k.J] = false
 				}
 			}
 		}
@@ -66,7 +74,10 @@ func Solve(inputF string) (int, int) {
 	part1, part2 := 0, 0
 	s := input.InputToStringSlice(inputF)
 
-	tiles := map[twod.Position]bool{}
+	tiles := make([][]bool, tileSize*2+2)
+	for i := range tiles {
+		tiles[i] = make([]bool, tileSize*2+2)
+	}
 
 	for _, tile := range s {
 		pos := twod.Position{}
@@ -92,11 +103,12 @@ func Solve(inputF string) (int, int) {
 				}
 			}
 		}
-		tiles[pos] = !tiles[pos]
-		if !tiles[pos] {
-			part1--
-		} else {
+		pos.MoveBy(tileSize, tileSize)
+		tiles[pos.I][pos.J] = !tiles[pos.I][pos.J]
+		if tiles[pos.I][pos.J] {
 			part1++
+		} else {
+			part1--
 		}
 
 	}
